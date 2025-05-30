@@ -1,7 +1,3 @@
-document.getElementById('loginButton').addEventListener('click', function() {
-    document.getElementById('loginFormContainer').classList.add('active');
-});
-
 document.getElementById('passwordField').addEventListener('input', function() {
     const togglePassword = document.getElementById('togglePassword');
     if (this.value) {
@@ -68,12 +64,7 @@ document.getElementById('toggleConfirmPassword').addEventListener('click', funct
     }
 });
 
-function closeLoginForm() {
-    document.getElementById('loginFormContainer').classList.remove('active');
-}
-
 function openForgotPasswordModal() {
-    document.getElementById('loginFormContainer').classList.remove('active');
     document.getElementById('dynamicModal').classList.add('active');
 }
 
@@ -83,7 +74,6 @@ function closeDynamicModal() {
 
 function closeAllModals() {
     document.querySelectorAll('.modal').forEach(modal => modal.classList.remove('active'));
-    document.getElementById('loginFormContainer').classList.remove('active');
     resetForms();
     clearSession();
 }
@@ -106,7 +96,6 @@ function backToDynamicModal() {
 
 function backToLogin() {
     document.getElementById('dynamicModal').classList.remove('active');
-    document.getElementById('loginFormContainer').classList.add('active');
 }
 
 function resetForms() {

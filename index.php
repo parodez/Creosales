@@ -13,10 +13,10 @@ include ('Backend/connection.php');
     <link rel="icon" href="assets/images/CreoSales-logo.png" type="image/png">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="assets/index/index.css">
+    <link rel="stylesheet" href="css/index.css">
 </head>
 <body>
-    <header class="header">
+    <!-- <header class="header">
         <div class="logo">
             <img src="assets/images/CreoSales-logo.png" alt="Creotec Logo" id="logoImg">
             <div class="logo-text" style="font-weight: bold; color: #4729a6; font-size: 20px;">
@@ -28,30 +28,12 @@ include ('Backend/connection.php');
             </div>
             <a href="#" id="loginButton" class="login-link">Login</a>
         </nav>
-    </header>
+    </header> -->
 
     <div class="content">
         <section class="hero">
             <div class="hero-container">
                 <img src="assets/images/CREOTEC BUILDING.jpg" alt="Creotec Building">
-                <div class="hero-content">
-                    <h1>WELCOME</h1>
-                    <a href="#about" class="read-more">Read more &#x1F5B1;</a>
-                </div>
-            </div>
-        </section>
-
-        <section class="about" id="about">
-            <div class="about-top">
-                <div class="about-content">
-                    <h2>About Us</h2>
-                    <p>CREOTEC Philippines Inc., is a duly-established, wholly-owned Filipino corporation which aims to provide excellent, skills-based solutions and exposure to the electronics manufacturing industry with it being a member of EMS Group of Companies.</p>
-                </div>
-                <div class="about-image">
-                    <video controls autoplay muted>
-                        <source src="assets/images/Creovid.mp4" type="video/mp4">
-                    </video>
-                </div>
             </div>
         </section>
 
@@ -59,7 +41,6 @@ include ('Backend/connection.php');
             <div class="login-header">
                 <img src="assets/images/CreoSales-logo.png" alt="Creotec Logo">
                 <h2>Admin Login</h2>
-                <div class="close-btn" onclick="closeAllModals()">×</div>
             </div>
             <form id="loginForm" method="POST" onsubmit="return validateLogin(event)">
                 <div class="input-wrapper">
@@ -144,6 +125,6 @@ include ('Backend/connection.php');
 
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script src="assets/index/index.js"></script>
+    <script src="js/index.js"></script>
 </body>
 </html>
