@@ -183,7 +183,7 @@ function validateLogin(event) {
     }
 
     if (isValid) {
-        fetch('../Backend/LoginSystemBackend/validate_login.php', {
+        fetch('Backend/LoginSystemBackend/validate_login.php', {
             method: 'POST',
             body: JSON.stringify({ username, password }),
             headers: {
@@ -193,7 +193,7 @@ function validateLogin(event) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                window.location.href = 'Frontend/dashboard/dashboard.php';
+                window.location.href = 'dashboard.php';
             } else {
                 showToast('error', 'Error', data.message);
             }

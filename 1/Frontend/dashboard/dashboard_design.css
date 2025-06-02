@@ -1,12 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=DM+Sans:wght@400;600&family=Manrope:wght@400;700&family=Urbanist:wght@400;600&display=swap');
 
-* {
+/* * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: Arial, sans-serif;
-}
+} */
 
 body {
     background-color: #1a1a1a;
@@ -18,20 +18,20 @@ body {
     font-family: 'Inter', sans-serif;
 }
 
-.nav-item span {
+/* .nav-item span {
     margin-left: 12px;
     font-size: 18px;
     color: white;
-}
+} */
 
-.nav-item:hover {
+/* .nav-item:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
 .nav-item.active {
     background-color: #4729a6;
     border-radius: 0;
-}
+} */
 
 .logo-container {
     display: flex;
@@ -58,14 +58,14 @@ body {
     overflow: hidden; 
 }
 
-.summary-section {
+/* .summary-section {
     background-color: #1c1040;
     padding: 30px;
     border-radius: 15px;
     display: flex;
     flex-direction: column;
     gap: 15px;
-}
+} */
 
 .summary-section h2 {
     font-size: 1.5em;

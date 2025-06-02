@@ -148,7 +148,7 @@ $evaluationResults_json = json_encode($evaluationResults);
 // Determine overall client result
 $overallResult = 'Conditional';
 
-if ($evaluationResults['Passed'] > $evaluationResults['Failed'] && $evaluationResults['Passed'] > $evaluationResults['Conditional']) {
+if ($evaluationResults['Passed'] >= $evaluationResults['Failed'] && $evaluationResults['Passed'] >= $evaluationResults['Conditional']) {
     $overallResult = 'Passed';
 } elseif ($evaluationResults['Failed'] > $evaluationResults['Passed'] && $evaluationResults['Failed'] > $evaluationResults['Conditional']) {
     $overallResult = 'Failed';

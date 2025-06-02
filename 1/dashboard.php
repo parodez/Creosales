@@ -1,10 +1,10 @@
 <?php
-include('../../Backend/connection.php');
+include('Backend/connection.php');
 session_start();
 
 // Check if user is logged in
 if (!isset($_SESSION['user'])) {
-    header('Location: ../../Backend/LoginSystemBackend/validate_login.php');
+    header('Location: Backend/LoginSystemBackend/validate_login.php');
     exit();
 }
 
@@ -191,16 +191,16 @@ $sectorColors = [
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard - CREOSALES</title>
-    <link rel="icon" href="../../assets/images/CreoSales-logo.png" type="image/png">
-    <link rel="stylesheet" href="dashboard_design.css">
-    <link rel="stylesheet" href="../../assets/css/sidebar.css" />
-    <link rel="stylesheet" href="../../assets/css/header_footer.css" />
+    <link rel="icon" href="assets/images/CreoSales-logo.png" type="image/png">
+    <link rel="stylesheet" href="Frontend/dashboard/dashboard_design.css">
+    <link rel="stylesheet" href="assets/css/sidebar.css" />
+    <link rel="stylesheet" href="assets/css/header_footer.css" />
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
-    <script src="../../assets/js/sidebar.js" defer></script>
-    <script src="dashboard_script.js" defer></script>
+    <script src="assets/js/sidebar.js" defer></script>
+    <script src="Frontend/dashboard/dashboard_script.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -222,7 +222,7 @@ $sectorColors = [
                 <span></span>
             </div>
             <div class="logo-container">
-                <img src="../../assets/images/CreoSales-logo.png" alt="CREOTEC Logo" id="logoImg">
+                <img src="assets/images/CreoSales-logo.png" alt="CREOTEC Logo" id="logoImg">
             </div>
             <div class="logo-text" style="font-weight: bold; color: #4729a6; font-size: 25px;">
                 <span class="logo-text-1">CREOSALES</span><br>

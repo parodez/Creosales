@@ -23,6 +23,7 @@
     left: 0;
     z-index: 10; /* Ensure footer stays above other elements */
     pointer-events: none; /* Prevent footer from blocking interactions with elements above it */
+    font-weight: bold;
 }
 
 .footer-left {

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="assets/css/login_design.css">
+    <link rel="stylesheet" href="assets/css/header_footer_design.css">
 </head>
 <body>
 
@@ -98,7 +99,7 @@
     </div>
 
     <footer class="footer">
-        <p>© 2025 CREOTEC. All rights reserved.</p>
+        © 2025 Creosales | Creotec Philippines. All Rights Reserved.
     </footer>
 
     <div class="toast-container" id="toastContainer"></div>
