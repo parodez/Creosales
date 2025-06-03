@@ -72,10 +72,10 @@ html, body {
 /* Sidebar */
 .sidebar {
     position: fixed;
-    top: 5vh; /* Start below the header */
+    top: 8vh; /* Start below the header */
     left: -250px;
     width: 250px;
-    height: 90vh;
+    height: 80vh;
     /* height: calc(100vh - 150px); Adjusted height to account for both header and footer space */
     background-color: #4100bf;
     transition: all 0.3s ease;
