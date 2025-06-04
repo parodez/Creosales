@@ -1,0 +1,200 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Arial', sans-serif;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    width: 100%; /* Full width */
+    top: 0;
+    z-index: 300; /* Higher z-index to ensure it stays above the sidebar */
+    transition: width 0.3s ease; /* Add transition for smooth resizing */
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 24px;
+    height: 18px;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+.hamburger span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background-color: #4100bf;
+    transition: all 0.3s ease;
+}
+
+.hamburger.active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.hamburger.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.hamburger.active span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+.logo-container img {
+    height: 30px;
+}
+
+.settings-icon {
+    font-size: 20px;
+    cursor: pointer;
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: 100px; /* Start below the header */
+    left: -250px;
+    width: 250px;
+    height: calc(100vh - 150px); /* Adjusted height to account for both header and footer space */
+    background-color: #4100bf;
+    transition: all 0.3s ease;
+    z-index: 200;
+    overflow-y: auto; /* This allows scrolling within the sidebar if content is too tall */
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 15px;
+    padding-bottom: 20px; /* Add some padding at the bottom within the sidebar */
+    margin-bottom: 0; /* Remove any bottom margin */
+}
+
+.sidebar.active {
+    left: 0;
+    padding-bottom: 50px;
+}
+
+.sidebar .profile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar .profile img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 10px;
+    border: 3px solid rgba(255, 255, 255, 0.2);
+}
+
+.sidebar .profile h4 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 20px 0;
+}
+
+.sidebar ul li {
+    margin-bottom: 5px;
+}
+
+.sidebar ul li a {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.sidebar ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar ul li a i {
+    margin-right: 15px;
+    width: 20px;
+    text-align: center;
+}
+
+.main-content {
+    margin-top: 70px;
+    padding: 20px;
+    transition: all 0.3s ease;
+}
+.sidebar-container {
+    position: fixed;
+    top: 100px; /* Start below the header */
+    left: 0;
+    width: 250px;
+    height: calc(100vh - 100px); /* Full height minus header height */
+    z-index: 200;
+    overflow: hidden; /* Ensure the sidebar doesn't overflow the container */
+    padding-bottom: 50px; /* Add padding to the bottom */
+}
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 150;
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .charts-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .main-content.sidebar-active {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .footer.sidebar-active {
+        margin-left: 0;
+        width: 100%;
+    }
+
+    .sidebar.active {
+        left: 0;
+        width: 100%;
+        background-color: rgba(28, 16, 64, 0.95);
+    }
+
+    .sidebar {
+        width: 230px;
+        left: -230px;
+    }
+
+    .header {
+        width: 100%; /* Full width for mobile */
+    }
+}
