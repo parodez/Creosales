@@ -1,0 +1,309 @@
+* {
+    font-family: 'Montserrat', sans-serif;
+}
+
+body {
+    background-color: #130a2e;
+    display: flex;
+    flex-direction: column;
+    color: white;
+    /* Ensure text color is white */
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+    position: relative;
+}
+
+@media screen and (max-width: 768px) {
+    .main-content {
+        width: 100%;
+        margin: 0;
+        margin-top: 70px;
+    }
+
+    .sidebar.collapsed+.main-content {
+        margin-left: 0;
+    }
+
+    .filter-container {
+        padding: 10px;
+    }
+
+    .filter-group {
+        min-width: 100%;
+    }
+}
+
+.profile {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 3px solid white;
+    object-fit: cover;
+}
+
+.profile h4 {
+    margin-top: 10px;
+    font-size: 18px;
+}
+
+.main-content {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 25px;
+    padding: 10px;
+    padding-top: 35px;
+    transition: margin-left 0.3s, width 0.3s;
+    width: calc(100% - 250px);
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar.collapsed+.main-content {
+    margin-left: 70px;
+}
+
+/* Table Container */
+.table-container {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 100%;
+    overflow-x: auto;
+    /* Enable horizontal scrolling */
+}
+
+/* Flashcard Style for Table */
+.flashcard-table {
+    width: 100%;
+    min-width: 800px;
+    /* Ensure minimum width to prevent squishing */
+    border-collapse: collapse;
+    table-layout: fixed;
+    background-color: #1c1040;
+}
+
+.flashcard-table tr {
+    transition: background 0.3s;
+    background-color: #1c1040;
+}
+
+.flashcard-table tr:hover {
+    background-color: #1c1040;
+}
+
+.flashcard-table td,
+.flashcard-table th {
+    padding: 15px;
+    vertical-align: middle;
+    word-wrap: break-word;
+    /* Ensure word wrap */
+    white-space: normal;
+    /* Ensure word wrap */
+}
+
+.flashcard-table th {
+    background: #4100BF;
+    color: white;
+    text-align: left;
+    border-bottom: none;
+    font-weight: 500;
+    position: relative;
+    min-width: 150px;
+    /* Set minimum width for columns */
+    white-space: nowrap;
+    /* Prevent text wrapping in headers */
+}
+
+/* edit icon */
+.action-buttons {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+}
+
+.action-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: white;
+    transition: transform 0.2s;
+}
+
+.action-button:hover {
+    transform: scale(1.1);
+}
+
+/* Sort tab styling */
+.filter-container {
+    background-color: #1c1040;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    color: white;
+    /* Ensure text color is white */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    overflow-x: auto;
+    /* Enable horizontal scrolling */
+}
+
+.filter-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.filter-group {
+    flex: 1;
+    min-width: 200px;
+}
+
+.filter-label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 5px;
+    color: #eee;
+    display: block;
+}
+
+.search-box {
+    flex: 2;
+    min-width: 300px;
+}
+
+/* Custom sort icons */
+.sort-icon {
+    cursor: pointer;
+    display: inline-block;
+    margin-left: 1px;
+    vertical-align: middle;
+    width: 20px;
+    height: 25px;
+    position: relative;
+    transition: transform 0.2s ease-in-out;
+}
+
+.sort-icon.asc .bi-arrow-up,
+.sort-icon.desc .bi-arrow-down {
+    width: 16px;
+    height: 16px;
+}
+
+/* Pagination */
+.pagination-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* margin-top: 10px; */
+    margin-bottom: 60px;
+    /* Add spacing to prevent overlap with footer */
+    overflow-x: auto;
+    /* Enable horizontal scrolling */
+    position: relative;
+    z-index: 1;
+}
+
+.pagination {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.pagination .page-link {
+    color: #4100BF;
+    border-radius: 4px;
+    margin: 0 3px;
+}
+
+.pagination .page-item.active .page-link {
+    background-color: #4100BF;
+    border-color: #4100BF;
+    color: #eee;
+}
+
+.page-info {
+    color: #eee;
+    font-size: 14px;
+}
+
+.swal2-footer .export-btn {
+    background-color: #4100BF;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.swal2-footer .export-btn:hover {
+    background-color: #5a00e0;
+}
+
+.swal2-footer .export-btn-all {
+    flex: 1 1 100%;
+    text-align: center;
+}
+
+.export {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    text-decoration: none;
+    transition: all 0.3s ease;
+
+    margin-left: auto;
+    margin-right: 10px;
+    /* display: flex;
+    align-items: center; */
+    padding: 0.8rem;
+    border: none;
+    border-radius: 8px;
+    background: #4100bf;
+    font-size: 1rem;
+    cursor: pointer;
+    width: 240px;
+
+    &:hover {
+        background: #2D1442;
+    }
+}
+
+.custom-logout-popup .swal2-popup {
+    background-color: #1c1040;
+    color: white;
+    border-radius: 10px;
+}
+
+.custom-logout-popup .swal2-title {
+    color: #e77373;
+}
+
+.custom-logout-popup .swal2-confirm {
+    background-color: #e77373;
+    color: white;
+}
+
+.custom-logout-popup .swal2-cancel {
+    background-color: #6c757d;
+    color: white;
+}

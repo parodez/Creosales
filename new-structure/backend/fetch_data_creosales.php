@@ -19,30 +19,30 @@ if (!isset($_SESSION['user_id'])) {
 $user_id = intval($_SESSION['user_id']);
 $user_type = intval($_SESSION['user_type']);
 
-$client_id = isset($_GET['id']) ? intval($_GET['id']) : 1;
+$potentialcustomer_id = isset($_GET['id']) ? intval($_GET['id']) : 1;
 
-$client_sql = "SELECT c.client_name,
-                      c.client_location, 
+$client_sql = "SELECT c.potentialcustomer_name,
+                      c.potentialcustomer_location, 
                       s.sector_name,
                       p.province_id
-               FROM tbl_client c
+               FROM tbl_potentialcustomer c
                LEFT JOIN tbl_sector s ON c.sector_id = s.sector_id
-               LEFT JOIN tbl_province p ON CONVERT(c.client_location USING utf8mb4) COLLATE utf8mb4_general_ci 
+               LEFT JOIN tbl_province p ON CONVERT(c.potentialcustomer_location USING utf8mb4) COLLATE utf8mb4_general_ci 
                                            LIKE CONCAT('%', CONVERT(p.province_name USING utf8mb4) COLLATE utf8mb4_general_ci, '%') 
-               WHERE c.client_id = $client_id";
+               WHERE c.potentialcustomer_id = $potentialcustomer_id";
 
 $client_result = $conn->query($client_sql);
 $client = $client_result->fetch_assoc();
 if (!$client) {
     $client = [
-        'client_name' => 'Not Available',
-        'client_location' => 'Not Available',
+        'potentialcustomer_name' => 'Not Available',
+        'potentialcustomer_location' => 'Not Available',
         'sector_name' => 'Not Available',
         'province_id' => null
     ];
 } else {
-    $client['client_name'] = isset($client['client_name']) && trim($client['client_name']) !== ''
-        ? $client['client_name']
+    $client['potentialcustomer_name'] = isset($client['potentialcustomer_name']) && trim($client['potentialcustomer_name']) !== ''
+        ? $client['potentialcustomer_name']
         : 'Not Available';
     $client['client_email'] = isset($client['client_email']) && trim($client['client_email']) !== ''
         ? $client['client_email']
@@ -53,8 +53,8 @@ if (!$client) {
     $client['client_contactnumber'] = isset($client['client_contactnumber']) && trim($client['client_contactnumber']) !== ''
         ? $client['client_contactnumber']
         : 'Not Available';
-    $client['client_location'] = isset($client['client_location']) && trim($client['client_location']) !== ''
-        ? $client['client_location']
+    $client['potentialcustomer_location'] = isset($client['potentialcustomer_location']) && trim($client['potentialcustomer_location']) !== ''
+        ? $client['potentialcustomer_location']
         : 'Not Available';
 }
 
@@ -83,11 +83,11 @@ $evaluation_sql = "SELECT cr.criteria_criterion,
                    FROM tbl_evaluation e
                    INNER JOIN tbl_rating r ON e.evaluation_id = r.evaluation_id
                    INNER JOIN tbl_criteria cr ON r.criteria_id = cr.criteria_id
-                   WHERE e.client_id = ?
+                   WHERE e.potentialcustomer_id = ?
                    ORDER BY cr.criteria_id ASC";
 
 $stmt = $conn->prepare($evaluation_sql);
-$stmt->bind_param("i", $client_id);
+$stmt->bind_param("i", $potentialcustomer_id);
 $stmt->execute();
 $evaluation_result = $stmt->get_result();
 
@@ -103,10 +103,10 @@ $images_sql = "SELECT images_name, images_path, images_date
                WHERE evaluation_id IN (
                    SELECT evaluation_id 
                    FROM tbl_evaluation 
-                   WHERE client_id = ?
+                   WHERE potentialcustomer_id = ?
                )";
 $stmt = $conn->prepare($images_sql);
-$stmt->bind_param("i", $client_id);
+$stmt->bind_param("i", $potentialcustomer_id);
 $stmt->execute();
 $images_result = $stmt->get_result();
 
@@ -118,18 +118,18 @@ $stmt->close();
 
 $eval_summary_sql = "SELECT evaluation_id, evaluation_rating, evaluation_result, evaluation_date 
                     FROM tbl_evaluation 
-                    WHERE client_id = ? 
+                    WHERE potentialcustomer_id = ? 
                     ORDER BY evaluation_date DESC 
                     LIMIT 1";
 
 $stmt = $conn->prepare($eval_summary_sql);
-$stmt->bind_param("i", $client_id);
+$stmt->bind_param("i", $potentialcustomer_id);
 $stmt->execute();
 $eval_summary = $stmt->get_result()->fetch_assoc();
 $stmt->close();
 
 // Initialize sorting and filtering variables
-$orderBy = isset($_GET['orderBy']) ? $_GET['orderBy'] : 'client_name';
+$orderBy = isset($_GET['orderBy']) ? $_GET['orderBy'] : 'potentialcustomer_name';
 $orderDir = isset($_GET['orderDir']) ? $_GET['orderDir'] : 'ASC';
 $sectorFilter = isset($_GET['sector']) ? $_GET['sector'] : '';
 $reviewFilter = isset($_GET['review']) ? $_GET['review'] : '';
@@ -144,18 +144,18 @@ $offset = ($page - 1) * $recordsPerPage;
 // Adjust query based on user type
 if ($user_type === 0) {
     // Admin: Fetch all clients
-    $sql = "SELECT c.client_id, c.client_name, c.client_location, s.sector_name, e.evaluation_result 
-            FROM tbl_client c
+    $sql = "SELECT c.potentialcustomer_id, c.potentialcustomer_name, c.potentialcustomer_location, s.sector_name, e.evaluation_result 
+            FROM tbl_potentialcustomer c
             JOIN tbl_sector s ON c.sector_id = s.sector_id
-            LEFT JOIN tbl_evaluation e ON c.client_id = e.client_id
+            LEFT JOIN tbl_evaluation e ON c.potentialcustomer_id = e.potentialcustomer_id
             WHERE 1=1";
 } else {
     // Regular user: Fetch only clients evaluated by the logged-in user
-    $sql = "SELECT c.client_id, c.client_name, c.client_location, s.sector_name, e.evaluation_result 
-            FROM tbl_client c
+    $sql = "SELECT c.potentialcustomer_id, c.potentialcustomer_name, c.potentialcustomer_location, s.sector_name, e.evaluation_result 
+            FROM tbl_potentialcustomer c
             JOIN tbl_sector s ON c.sector_id = s.sector_id
-            JOIN tbl_evaluation e ON c.client_id = e.client_id
-            WHERE e.client_id = c.client_id AND c.user_id = $user_id";
+            JOIN tbl_evaluation e ON c.potentialcustomer_id = e.potentialcustomer_id
+            WHERE e.potentialcustomer_id = c.potentialcustomer_id AND c.user_id = $user_id";
 }
 
 // Add filters if they exist
@@ -166,7 +166,7 @@ if (!empty($reviewFilter)) {
     $sql .= " AND e.evaluation_result = '$reviewFilter'";
 }
 if (!empty($searchTerm)) {
-    $sql .= " AND (c.client_name LIKE '%$searchTerm%' OR c.client_location LIKE '%$searchTerm%')";
+    $sql .= " AND (c.potentialcustomer_name LIKE '%$searchTerm%' OR c.potentialcustomer_location LIKE '%$searchTerm%')";
 }
 if (!empty($adminFilter)) {
     $sql .= " AND c.user_id = $adminFilter";
@@ -205,8 +205,8 @@ while ($row = $reviewResult->fetch_assoc()) {
 $userQuery = "
     SELECT DISTINCT u.user_id, CONCAT(u.user_firstname, ' ', u.user_lastname) AS full_name
     FROM tbl_user u
-    JOIN tbl_client c ON u.user_id = c.user_id
-    JOIN tbl_evaluation e ON c.client_id = e.client_id
+    JOIN tbl_potentialcustomer c ON u.user_id = c.user_id
+    JOIN tbl_evaluation e ON c.potentialcustomer_id = e.potentialcustomer_id
     JOIN tbl_credentials cred ON u.user_id = cred.user_id
     WHERE cred.user_type = 1
     ORDER BY full_name
@@ -218,10 +218,10 @@ while ($row = $userResult->fetch_assoc()) {
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_client') {
-    $client_id = intval($_POST['client_id']);
-    $client_name = $conn->real_escape_string($_POST['client_name']);
+    $potentialcustomer_id = intval($_POST['potentialcustomer_id']);
+    $potentialcustomer_name = $conn->real_escape_string($_POST['potentialcustomer_name']);
     $sector_name = $conn->real_escape_string($_POST['sector_name']);
-    $client_location = $conn->real_escape_string($_POST['client_location']);
+    $potentialcustomer_location = $conn->real_escape_string($_POST['potentialcustomer_location']);
 
     // Fetch sector_id based on sector_name
     $sector_query = "SELECT sector_id FROM tbl_sector WHERE sector_name = '$sector_name' LIMIT 1";
@@ -232,11 +232,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     if ($sector_id) {
         // Update client details
         $update_query = "
-            UPDATE tbl_client 
-            SET client_name = '$client_name', 
+            UPDATE tbl_potentialcustomer 
+            SET potentialcustomer_name = '$potentialcustomer_name', 
                 sector_id = $sector_id, 
-                client_location = '$client_location' 
-            WHERE client_id = $client_id
+                potentialcustomer_location = '$potentialcustomer_location' 
+            WHERE potentialcustomer_id = $potentialcustomer_id
         ";
 
         if ($conn->query($update_query)) {
@@ -251,7 +251,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['action'] === 'fetch_contact_details') {
-    $client_id = intval($_GET['client_id']);
+    $potentialcustomer_id = intval($_GET['potentialcustomer_id']);
 
     $contact_sql = "
         SELECT 
@@ -261,11 +261,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['act
             contactperson_email,
             contactperson_number
         FROM tbl_contactperson
-        WHERE client_id = ?
+        WHERE potentialcustomer_id = ?
     ";
 
     $stmt = $conn->prepare($contact_sql);
-    $stmt->bind_param("i", $client_id);
+    $stmt->bind_param("i", $potentialcustomer_id);
     $stmt->execute();
     $result = $stmt->get_result();
 
@@ -330,15 +330,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         exit();
     } elseif ($_POST['action'] === 'add_contactperson') {
         // Handle adding a new contact person
-        $client_id = intval($_POST['client_id']);
+        $potentialcustomer_id = intval($_POST['potentialcustomer_id']);
         $contactperson_name = $conn->real_escape_string($_POST['contactperson_name']);
         $contactperson_position = $conn->real_escape_string($_POST['contactperson_position']);
         $contactperson_email = $conn->real_escape_string($_POST['contactperson_email']);
         $contactperson_number = $conn->real_escape_string($_POST['contactperson_number']);
 
         $insert_query = "
-            INSERT INTO tbl_contactperson (contactperson_name, contactperson_position, contactperson_email, contactperson_number, client_id) 
-            VALUES ('$contactperson_name', '$contactperson_position', '$contactperson_email', '$contactperson_number', $client_id)
+            INSERT INTO tbl_contactperson (contactperson_name, contactperson_position, contactperson_email, contactperson_number, potentialcustomer_id) 
+            VALUES ('$contactperson_name', '$contactperson_position', '$contactperson_email', '$contactperson_number', $potentialcustomer_id)
         ";
 
         if ($conn->query($insert_query)) {
@@ -349,5 +349,78 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
         exit();
     }
 }
+// PASSED START
+// prpb
+
+// Queries the number of clients per sector
+$query = "
+WITH programs AS (
+    SELECT 
+    ep.potentialcustomer_id,
+    GROUP_CONCAT(p.program_type SEPARATOR ', ') AS existing_programs
+    FROM tbl_existingprograms ep
+    JOIN tbl_program p ON ep.program_id = p.program_id
+    GROUP BY ep.potentialcustomer_id
+),
+services AS (
+    SELECT 
+    es.potentialcustomer_id,
+    GROUP_CONCAT(s.services_type SEPARATOR ', ') AS existing_services
+    FROM tbl_existingservices es
+    JOIN tbl_services s ON es.services_id = s.services_id
+    GROUP BY es.potentialcustomer_id
+),
+partners AS (
+    SELECT 
+    epar.potentialcustomer_id,
+    GROUP_CONCAT(par.partners_name SEPARATOR ', ') AS existing_partners
+    FROM tbl_existingpartners epar
+    JOIN tbl_partners par ON epar.partners_id = par.partners_id
+    GROUP BY epar.potentialcustomer_id
+),
+facilities AS (
+    SELECT
+    ef.potentialcustomer_id,
+    GROUP_CONCAT(f.facility_type SEPARATOR ', ') AS existing_facilities
+    FROM tbl_existingfacilities ef
+    JOIN tbl_facility f ON ef.facility_id = f.facility_id
+    GROUP BY ef.potentialcustomer_id
+)
+    
+SELECT
+pc.potentialcustomer_id,
+pc.potentialcustomer_name,
+pop.population_count,
+prog.existing_programs,
+serv.existing_services,
+part.existing_partners,
+fac.existing_facilities
+FROM tbl_potentialcustomer pc
+JOIN tbl_population pop ON pc.potentialcustomer_id = pop.potentialcustomer_id
+LEFT JOIN programs prog ON pc.potentialcustomer_id = prog.potentialcustomer_id
+LEFT JOIN services serv ON pc.potentialcustomer_id = serv.potentialcustomer_id
+LEFT JOIN partners part ON pc.potentialcustomer_id = part.potentialcustomer_id
+LEFT JOIN facilities fac ON pc.potentialcustomer_id = fac.potentialcustomer_id;
+";
+$queryResult = mysqli_query($conn, $query);
+
+// Initialize clientData values
+$passedCustomerData = [];
+$totalPassed = 0;
+
+while ($row = mysqli_fetch_assoc($queryResult)) {
+    $passedCustomerData[$row['potentialcustomer_id']] = [
+        'name' => $row['potentialcustomer_name'],
+        'population' => $row['population_count'],
+        'programs' => $row['existing_programs'],
+        'services' => $row['existing_services'],
+        'partners' => $row['existing_partners'],
+        'facilities' => $row['existing_facilities']
+    ];
+
+    $totalPassed += 1;
+}
+
+// PASSED END
 
 ?>

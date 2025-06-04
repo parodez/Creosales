@@ -235,7 +235,7 @@ function sendVerificationCode() {
         sendCodeButton.classList.add('disabled-button');
         sendCodeButton.disabled = true;
 
-        fetch('Backend/LoginSystemBackend/send_code.php', {
+        fetch('../backend/LoginSystem/send_code.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -393,7 +393,7 @@ function verifyCode() {
         return;
     }
 
-    fetch('Backend/LoginSystemBackend/verify_code.php', {
+    fetch('../backend/LoginSystem/verify_code.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -441,7 +441,7 @@ function resetPassword(event) {
         return;
     }
 
-    fetch('Backend/LoginSystemBackend/reset_password.php', {
+    fetch('../backend/LoginSystem/reset_password.php', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'

@@ -16,8 +16,8 @@
     <link rel="icon" href="assets/images/CreoSales-logo.png" type="image/png">
     <link rel="stylesheet" href="assets/css/sidebar_design.css" />
     <link rel="stylesheet" href="assets/css/header_footer_design.css" />
-    <link rel="stylesheet" href="assets/css/evaluations_design.css" />
-    <script src="assets/js/evaluations.js" defer></script>
+    <link rel="stylesheet" href="assets/css/passedCustomers_design.css" />
+    <script src="assets/js/passedCustomers.js" defer></script>
 </head>
 
 <body>
@@ -54,7 +54,7 @@
     <div class="sidebar-overlay" id="sidebarOverlay"></div>
 
     <div class="main-content">
-        <h2 class="mb-4">Potential Customer Evaluation Results</h2>
+        <h2 class="mb-4">Passed Customers Dashboard</h2>
 
         <!-- Filter Container -->
         <div class="filter-container">
@@ -103,22 +103,44 @@
                 <table class="flashcard-table">
                     <thead>
                         <tr>
-                            <th style="width: 30%;">
+                            <th style="width: 20%;">
                                 Customer
                                 <span class="sort-icon <?php echo $orderBy == 'potentialcustomer_name' ? ($orderDir == 'ASC' ? 'asc' : 'desc') : ''; ?>"
                                     onclick="sortBy('potentialcustomer_name', '<?php echo $orderBy == 'potentialcustomer_name' && $orderDir == 'ASC' ? 'DESC' : 'ASC'; ?>')">
                                     <i class="bi <?php echo $orderDir == 'ASC' ? 'bi-arrow-up' : 'bi-arrow-down'; ?>"></i>
                                 </span>
                             </th>
-                            <th style="width: 30%;">Potential Customer Location</th>
-                            <th style="width: 15%; text-align: left;">Sector</th>
-                            <th style="width: 15%; text-align: center; font-size: small;">Results</th>
-                            <th style="width: 10%; text-align: center;">Actions</th>
+                            <th style="width: 8%; text-align: center;">
+                                Population
+                                <br>Count
+                            </th>
+                            <th style="width: 13%; text-align: center;">
+                                Programs
+                            </th>
+                            <th style="width: 10%; text-align: center;">
+                                Services
+                            </th>
+                            <th style="width: 10%; text-align: center;">
+                                Partners
+                            </th>
+                            <th style="width: 10%; text-align: center;">
+                                Facilities
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
-                        if ($result && $result->num_rows > 0) {
+                        <?php foreach ($passedCustomerData as $passedCustomer): ?>
+                            <tr>
+                                <td><?= $passedCustomer['name']?></td>
+                                <td style="text-align: center;"><?= $passedCustomer['population']?></td>
+                                <td style="text-align: center;"><?= $passedCustomer['programs']?></td>
+                                <td style="text-align: center;"><?= $passedCustomer['services']?></td>
+                                <td style="text-align: center;"><?= $passedCustomer['partners']?></td>
+                                <td style="text-align: center;"><?= $passedCustomer['facilities']?></td>
+                            </tr>
+                        <?php endforeach?>
+                        <!-- <?php
+                        if ($passedCustomerData && $passedCustomerData->num_rows > 0) {
                             while ($row = $result->fetch_assoc()) {
                                 echo "<tr>
                                             <td>{$row['potentialcustomer_name']}</td>
@@ -141,7 +163,7 @@
                         } else {
                             echo "<tr><td colspan='5' class='text-center'>No records found</td></tr>";
                         }
-                        ?>
+                        ?> -->
                     </tbody>
                 </table>
             </div>

@@ -1,6 +1,7 @@
 <?php
 include('../backend/connection.php');
 session_start();
+include '../backend/fetch_data_creosales';
 
 // Check if user is logged in
 if (!isset($_SESSION['user'])) {
@@ -24,15 +25,15 @@ $userDetails = $userResult->fetch_assoc();
 // Adjust total clients count based on user type
 if ($user_type === 0) {
     // Admin: Fetch all clients
-    $totalClientsQuery = "SELECT COUNT(*) as total_clients FROM tbl_client";
+    $totalClientsQuery = "SELECT COUNT(*) as total_clients FROM tbl_potentialcustomer";
     $totalClientsResult = mysqli_query($conn, $totalClientsQuery);
     $totalClientsRow = mysqli_fetch_assoc($totalClientsResult);
     $totalClients = $totalClientsRow['total_clients'];
 } else {
     // Regular user: Fetch only clients evaluated by the logged-in user
-    $totalClientsQuery = "SELECT COUNT(DISTINCT e.client_id) as total_clients 
+    $totalClientsQuery = "SELECT COUNT(DISTINCT e.potentialcustomer_id) as total_clients 
                           FROM tbl_evaluation e
-                          JOIN tbl_client cl ON e.client_id = cl.client_id
+                          JOIN tbl_potentialcustomer cl ON e.potentialcustomer_id = cl.potentialcustomer_id
                           WHERE cl.user_id = ?";
     $totalClientsStmt = $conn->prepare($totalClientsQuery);
     $totalClientsStmt->bind_param("i", $userId);
@@ -46,7 +47,7 @@ if ($user_type === 0) {
 // prpb
 $averageRatingBySector_query = "SELECT s.sector_name, AVG(e.evaluation_rating) as avg_rating 
           FROM tbl_evaluation e
-          JOIN tbl_client cl ON e.client_id = cl.client_id
+          JOIN tbl_potentialcustomer cl ON e.potentialcustomer_id = cl.potentialcustomer_id
           JOIN tbl_sector s ON cl.sector_id = s.sector_id
           GROUP BY s.sector_name
           ORDER BY s.sector_name";
@@ -67,9 +68,9 @@ $totalAvgRow = mysqli_fetch_assoc($totalAvgResult);
 $totalAvgRating = round($totalAvgRow['total_avg_rating'], 1);
 
 // Query to get the last update date and the user who made the update
-$lastUpdateQuery = "SELECT MAX(e.evaluation_date) as last_update, e.client_id, cl.user_id 
+$lastUpdateQuery = "SELECT MAX(e.evaluation_date) as last_update, e.potentialcustomer_id, cl.user_id 
                     FROM tbl_evaluation e
-                    JOIN tbl_client cl ON e.client_id = cl.client_id";
+                    JOIN tbl_potentialcustomer cl ON e.potentialcustomer_id = cl.potentialcustomer_id";
 $lastUpdateResult = mysqli_query($conn, $lastUpdateQuery);
 $lastUpdateRow = mysqli_fetch_assoc($lastUpdateResult);
 $lastUpdateDate = $lastUpdateRow['last_update'] ? date('M d, Y', strtotime($lastUpdateRow['last_update'])) : 'No updates found';
@@ -96,8 +97,8 @@ $clientsEvaluatedCount = $clientsEvaluatedRow['clients_evaluated'] ?? 0;
 // prpb
 
 // Queries the number of clients per sector
-$query = "SELECT s.sector_name, COUNT(cl.client_id) as client_count
-          FROM tbl_client cl
+$query = "SELECT s.sector_name, COUNT(cl.potentialcustomer_id) as client_count
+          FROM tbl_potentialcustomer cl
           JOIN tbl_sector s ON cl.sector_id = s.sector_id
           GROUP BY s.sector_name
           ORDER BY FIELD(s.sector_name, 'School', 'Government', 'Sponsor', 'Industry')";
@@ -159,7 +160,7 @@ $evaluationCounts = [];
 // Fetch the number of clients evaluated by the logged-in user
 $evaluationCountQuery = "SELECT s.sector_name, COUNT(e.evaluation_id) as evaluated_count
                          FROM tbl_evaluation e
-                         JOIN tbl_client cl ON e.client_id = cl.client_id
+                         JOIN tbl_potentialcustomer cl ON e.potentialcustomer_id = cl.potentialcustomer_id
                          JOIN tbl_sector s ON cl.sector_id = s.sector_id
                          WHERE cl.user_id = ?
                          GROUP BY s.sector_name";
@@ -173,7 +174,7 @@ while ($row = $evaluationCountResult->fetch_assoc()) {
 }
 
 // Fetch all clients for the logged-in user for additional debugging
-$clientQuery = "SELECT * FROM tbl_client WHERE user_id = ?";
+$clientQuery = "SELECT * FROM tbl_potentialcustomer WHERE user_id = ?";
 $clientStmt = $conn->prepare($clientQuery);
 $clientStmt->bind_param("i", $_SESSION['user_id']);
 $clientStmt->execute();

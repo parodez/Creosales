@@ -63,6 +63,17 @@
                     </span>
                 </a>
             </li>
+            <li style="font-size: 18px; display: flex; align-items: center;">
+                <a href="passedCustomers.php" style="flex-grow: 1; display: flex; align-items: center; justify-content: space-between;">
+                    <div style="display: flex; align-items: center;">
+                        <i class="bi bi-people"></i>
+                        <span>Passed Customers</span>
+                    </div>
+                    <span style="background-color: rgba(255, 255, 255, 0.1); color: #fff; font-size: 15px; font-weight: bold; padding: 3px 15px; border-radius: 5px;">
+                        <!-- <?php echo htmlspecialchars($user_type === 0 ? $totalClients : $evaluatedClients); ?> -->
+                    </span>
+                </a>
+            </li>
 
             <li style="font-size: 18px;">
                 <a href="#" id="logoutBtn">
