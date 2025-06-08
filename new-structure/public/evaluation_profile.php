@@ -14,14 +14,14 @@ $userId = $_SESSION['user_id'];
 $userType = $_SESSION['user_type'];
 
 if ($userType === 0) {
-    $totalClientsQuery = "SELECT COUNT(*) as total_clients FROM tbl_client";
+    $totalClientsQuery = "SELECT COUNT(*) as total_clients FROM tbl_potentialcustomer";
     $totalClientsResult = mysqli_query($conn, $totalClientsQuery);
     $totalClientsRow = mysqli_fetch_assoc($totalClientsResult);
     $totalClients = $totalClientsRow['total_clients'];
 } else {
     $evaluatedClientsQuery = "SELECT COUNT(DISTINCT e.client_id) as evaluated_clients 
                               FROM tbl_evaluation e
-                              JOIN tbl_client cl ON e.client_id = cl.client_id
+                              JOIN tbl_potentialcustomer cl ON e.client_id = cl.client_id
                               WHERE cl.user_id = ?";
     $stmt = $conn->prepare($evaluatedClientsQuery);
     $stmt->bind_param("i", $userId);

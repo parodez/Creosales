@@ -110,62 +110,72 @@
                                     <i class="bi <?php echo $orderDir == 'ASC' ? 'bi-arrow-up' : 'bi-arrow-down'; ?>"></i>
                                 </span>
                             </th>
-                            <th style="width: 8%; text-align: center;">
-                                Population
-                                <br>Count
-                            </th>
-                            <th style="width: 13%; text-align: center;">
-                                Programs
-                            </th>
-                            <th style="width: 10%; text-align: center;">
-                                Services
-                            </th>
-                            <th style="width: 10%; text-align: center;">
-                                Partners
-                            </th>
-                            <th style="width: 10%; text-align: center;">
-                                Facilities
-                            </th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php foreach ($passedCustomerData as $passedCustomer): ?>
                             <tr>
                                 <td><?= $passedCustomer['name']?></td>
-                                <td style="text-align: center;"><?= $passedCustomer['population']?></td>
-                                <td style="text-align: center;"><?= $passedCustomer['programs']?></td>
-                                <td style="text-align: center;"><?= $passedCustomer['services']?></td>
-                                <td style="text-align: center;"><?= $passedCustomer['partners']?></td>
-                                <td style="text-align: center;"><?= $passedCustomer['facilities']?></td>
                             </tr>
                         <?php endforeach?>
-                        <!-- <?php
-                        if ($passedCustomerData && $passedCustomerData->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                echo "<tr>
-                                            <td>{$row['potentialcustomer_name']}</td>
-                                            <td>{$row['potentialcustomer_location']}</td>
-                                            <td style='text-align: left;'>{$row['sector_name']}</td>
-                                            <td style='text-align: center; color:"
-                                    . (strtolower($row['evaluation_result']) == 'passed' ? 'green' : (strtolower($row['evaluation_result']) == 'failed' ? 'red' : 'white'))
-                                    . ";'>
-                                                {$row['evaluation_result']}
-                                            </td>
-                                            <td>
-                                                <div class='action-buttons'>
-                                                    <a href='evaluation_profile.php?id={$row['potentialcustomer_id']}' class='action-button edit-button' title='Edit'>
-                                                        <i class='bi bi-pencil' style='color: white;'></i>
-                                                    </a>
-                                                </div>
-                                            </td>
-                                        </tr>";
-                            }
-                        } else {
-                            echo "<tr><td colspan='5' class='text-center'>No records found</td></tr>";
-                        }
-                        ?> -->
                     </tbody>
                 </table>
+            </div>
+            <div class="information-panel">
+                <h1 style="align-items: center;">Customer Information</h1>
+                <br>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <h4>Name</h4>
+                        Customer Name
+                    </div>
+                    <div class="info-item">
+                        <h4>Sector</h4>
+                        Customer Sector
+                    </div>
+                    <div class="info-item">
+                        <h4>Existing Programs</h4>
+                        Program 1
+                        <br>
+                        Program 2
+                    </div>
+                    <div class="info-item">
+                        <h4>Existing Services</h4>
+                        Service 1
+                        <br>
+                        Service 2
+                    </div>
+                    <div class="info-item">
+                        <h4>Existing Partners</h4>
+                        Partner 1
+                        <br>
+                        Partner 2
+                    </div>
+                    <div class="info-item">
+                        <h4>Existing Facilities</h4>
+                        Facilities 1
+                        <br>
+                        Facilities 2
+                    </div>
+                    <div class="info-item">
+                        <h4>Total Population</h4>
+                        #
+                    </div>
+                    <div class="info-item">
+                        Grade 1: #<br>
+                        Grade 1: #<br>
+                        Grade 1: #<br>
+                        Grade 1: #<br>
+                        Grade 1: #<br>
+                    </div>
+                    <div class="info-item">
+                        Grade 1: #<br>
+                        Grade 1: #<br>
+                        Grade 1: #<br>
+                        Grade 1: #<br>
+                        Grade 1: #<br>
+                    </div>
+                </div>
             </div>
         </div>
 

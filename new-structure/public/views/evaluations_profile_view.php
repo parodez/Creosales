@@ -67,7 +67,7 @@
         <div class="content-container">
             <div class="profile-container" >
                 <div class="profile-header">
-                    <h2><?php echo htmlspecialchars($client['client_name']); ?></h2>
+                    <h2><?php echo htmlspecialchars($client['potentialcustomer_name']); ?></h2>
                     <p><?php echo htmlspecialchars($client['sector_name']); ?></p>
                 </div>
                 <div id="evaluation-info-box" class="profile-header" style="display: none;">
@@ -217,7 +217,7 @@
                     <div class="info-grid">
                         <div class="info-item">
                             <div class="info-label">Name</div>
-                            <div id="nameField"><?php echo htmlspecialchars($client['client_name'] ?? 'N/A'); ?></div>
+                            <div id="nameField"><?php echo htmlspecialchars($client['potentialcustomer_name'] ?? 'N/A'); ?></div>
                         </div>
                         <div class="info-item">
                             <div class="info-label">Sector Name</div>

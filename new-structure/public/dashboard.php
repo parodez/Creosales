@@ -1,7 +1,7 @@
 <?php
 include('../backend/connection.php');
 session_start();
-include '../backend/fetch_data_creosales';
+include '../backend/fetch_data_creosales.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['user'])) {
