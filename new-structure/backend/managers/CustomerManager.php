@@ -1,5 +1,7 @@
 <?php
 
+require_once '../classes/PotentialCustomer.php';
+
 class CustomerManager {
     private $pdo;
 

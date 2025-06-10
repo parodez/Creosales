@@ -1,4 +1,13 @@
 <?php 
+
+require_once 'ContactPerson.php';
+require_once 'Evaluation.php';
+require_once 'Facility.php';
+require_once 'Partner.php';
+require_once 'Population.php';
+require_once 'Program.php';
+require_once 'Service.php';
+
 class PotentialCustomer {
     // Customer Info
     public int $id, $user_id;

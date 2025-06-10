@@ -434,7 +434,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 
 // PASSED END
 
-// TODO: Separate classes into its own folder and files
 // CUSTOMER ALL DATA
 class  Evaluation {
      public int $id;
