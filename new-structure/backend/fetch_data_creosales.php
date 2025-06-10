@@ -353,74 +353,356 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 // prpb
 
 // Queries the number of clients per sector
-$query = "
-WITH programs AS (
-    SELECT 
-    ep.potentialcustomer_id,
-    GROUP_CONCAT(p.program_type SEPARATOR ', ') AS existing_programs
-    FROM tbl_existingprograms ep
-    JOIN tbl_program p ON ep.program_id = p.program_id
-    GROUP BY ep.potentialcustomer_id
-),
-services AS (
-    SELECT 
-    es.potentialcustomer_id,
-    GROUP_CONCAT(s.services_type SEPARATOR ', ') AS existing_services
-    FROM tbl_existingservices es
-    JOIN tbl_services s ON es.services_id = s.services_id
-    GROUP BY es.potentialcustomer_id
-),
-partners AS (
-    SELECT 
-    epar.potentialcustomer_id,
-    GROUP_CONCAT(par.partners_name SEPARATOR ', ') AS existing_partners
-    FROM tbl_existingpartners epar
-    JOIN tbl_partners par ON epar.partners_id = par.partners_id
-    GROUP BY epar.potentialcustomer_id
-),
-facilities AS (
-    SELECT
-    ef.potentialcustomer_id,
-    GROUP_CONCAT(f.facility_type SEPARATOR ', ') AS existing_facilities
-    FROM tbl_existingfacilities ef
-    JOIN tbl_facility f ON ef.facility_id = f.facility_id
-    GROUP BY ef.potentialcustomer_id
-)
+// $query = "
+// WITH programs AS (
+//     SELECT 
+//     ep.potentialcustomer_id,
+//     GROUP_CONCAT(p.program_type SEPARATOR ', ') AS existing_programs
+//     FROM tbl_existingprograms ep
+//     JOIN tbl_program p ON ep.program_id = p.program_id
+//     GROUP BY ep.potentialcustomer_id
+// ),
+// services AS (
+//     SELECT 
+//     es.potentialcustomer_id,
+//     GROUP_CONCAT(s.services_type SEPARATOR ', ') AS existing_services
+//     FROM tbl_existingservices es
+//     JOIN tbl_services s ON es.services_id = s.services_id
+//     GROUP BY es.potentialcustomer_id
+// ),
+// partners AS (
+//     SELECT 
+//     epar.potentialcustomer_id,
+//     GROUP_CONCAT(par.partners_name SEPARATOR ', ') AS existing_partners
+//     FROM tbl_existingpartners epar
+//     JOIN tbl_partners par ON epar.partners_id = par.partners_id
+//     GROUP BY epar.potentialcustomer_id
+// ),
+// facilities AS (
+//     SELECT
+//     ef.potentialcustomer_id,
+//     GROUP_CONCAT(f.facility_type SEPARATOR ', ') AS existing_facilities
+//     FROM tbl_existingfacilities ef
+//     JOIN tbl_facility f ON ef.facility_id = f.facility_id
+//     GROUP BY ef.potentialcustomer_id
+// )
     
-SELECT
-pc.potentialcustomer_id,
-pc.potentialcustomer_name,
-pop.population_count,
-prog.existing_programs,
-serv.existing_services,
-part.existing_partners,
-fac.existing_facilities
-FROM tbl_potentialcustomer pc
-JOIN tbl_population pop ON pc.potentialcustomer_id = pop.potentialcustomer_id
-LEFT JOIN programs prog ON pc.potentialcustomer_id = prog.potentialcustomer_id
-LEFT JOIN services serv ON pc.potentialcustomer_id = serv.potentialcustomer_id
-LEFT JOIN partners part ON pc.potentialcustomer_id = part.potentialcustomer_id
-LEFT JOIN facilities fac ON pc.potentialcustomer_id = fac.potentialcustomer_id;
-";
-$queryResult = mysqli_query($conn, $query);
+// SELECT
+// pc.potentialcustomer_id,
+// pc.potentialcustomer_name,
+// pop.population_count,
+// prog.existing_programs,
+// serv.existing_services,
+// part.existing_partners,
+// fac.existing_facilities,
+// cont.contactperson_name,
+// cont.contactperson_position,
+// cont.contactperson_email,
+// cont.contactperson_number
+// FROM tbl_potentialcustomer pc
+// JOIN tbl_population pop ON pc.potentialcustomer_id = pop.potentialcustomer_id
+// LEFT JOIN programs prog ON pc.potentialcustomer_id = prog.potentialcustomer_id
+// LEFT JOIN services serv ON pc.potentialcustomer_id = serv.potentialcustomer_id
+// LEFT JOIN partners part ON pc.potentialcustomer_id = part.potentialcustomer_id
+// LEFT JOIN facilities fac ON pc.potentialcustomer_id = fac.potentialcustomer_id
+// LEFT JOIN tbl_contactperson cont ON pc.potentialcustomer_id = cont.potentialcustomer_id;33
+// ";
+// $queryResult = mysqli_query($conn, $query);
 
-// Initialize clientData values
-$passedCustomerData = [];
-$totalPassed = 0;
+// // Initialize clientData values
+// $passedCustomerData = [];
+// $totalPassed = 0;
 
-while ($row = mysqli_fetch_assoc($queryResult)) {
-    $passedCustomerData[$row['potentialcustomer_id']] = [
-        'name' => $row['potentialcustomer_name'],
-        'population' => $row['population_count'],
-        'programs' => $row['existing_programs'],
-        'services' => $row['existing_services'],
-        'partners' => $row['existing_partners'],
-        'facilities' => $row['existing_facilities']
-    ];
+// while ($row = mysqli_fetch_assoc($queryResult)) {
+//     $passedCustomerData[$row['potentialcustomer_id']] = [
+//         'name' => $row['potentialcustomer_name'],
+//         'population' => $row['population_count'],
+//         'programs' => $row['existing_programs'],
+//         'services' => $row['existing_services'],
+//         'partners' => $row['existing_partners'],
+//         'facilities' => $row['existing_facilities'],
+//         'contact' => [
+//             $row['contactperson_name'],
+//             $row['contactperson_position'],
+//             $row['contactperson_email'],
+//             $row['contactperson_number']
+//             ]
+//     ];
 
-    $totalPassed += 1;
-}
+//     $totalPassed += 1;
+// }
 
 // PASSED END
+
+// TODO: Separate classes into its own folder and files
+// CUSTOMER ALL DATA
+class  Evaluation {
+     public int $id;
+     public string $rating, $result, $date;
+
+     public function __construct($id, $rating, $result, $date) {
+        $this->id = $id;
+        $this->rating = $rating;
+        $this->result = $result;
+        $this->date = $date;
+     }
+}
+
+class ContactPerson {
+    public int $id;
+    public string $name, $position, $email, $number;
+
+    public function __construct($id, $name, $position, $email, $number) {
+        $this->id = $id;
+        $this->name = $name;
+        $this->position = $position;
+        $this->email = $email;
+        $this->number = $number;
+    } 
+}
+
+class Program {
+    public int $id;
+    public string $type;
+
+    public function __construct($id, $type) {
+        $this->id = $id;
+        $this->type = $type;
+    }
+}
+
+class Service {
+    public int $id;
+    public string $type;
+
+    public function __construct($id, $type) {
+        $this->id = $id;
+        $this->type = $type;
+    }
+}
+
+class Partner {
+    public int $id, $years_with_partner;
+    public string $name;
+
+    public function __construct($id, $years_with_partner, $name) {
+        $this->id = $id;
+        $this->years_with_partner = $years_with_partner;
+        $this->name = $name;
+    }
+}
+
+class Facility {
+    public int $id;
+    public string $type;
+
+    public function __construct($id, $type) {
+        $this->id = $id;
+        $this->type = $type;
+    }
+} 
+
+class Population {
+    public int $id, $count;
+    public $subpopulation = [];
+
+    public function __construct($id, $count, $subpopulation) {
+        $this->id = $id;
+        $this->count = $count;
+        $this->subpopulation = $subpopulation;
+    }
+}
+
+class PotentialCustomer {
+    // Customer Info
+    public int $id, $user_id;
+    public string $name, $type, $location, $facility, $tuition, $sector;
+
+    public ContactPerson $contactPerson;
+    public Evaluation $evaluation;
+    public Population $population;
+    public $programs = [], $services = [], $partners = [], $facilities = [];
+
+    public function __construct($id, $name, $type, $location, $facility, $tuition, $sector, $user_id) {
+        $this->id = $id;
+        $this->name = $name;
+        $this->type = $type;
+        $this->location = $location;
+        $this->facility = $facility;
+        $this->tuition = $tuition;
+        $this->sector = $sector;
+        $this->user_id = $user_id;
+    }
+
+    public function setEvaluation(Evaluation $evaluation) {
+        $this->evaluation = $evaluation;
+    }
+
+    public function setContactPerson(ContactPerson $contactPerson) {
+        $this->contactPerson = $contactPerson;
+    }
+    public function setPrograms(Program $program) {
+        $this->programs[] = $program;
+    }
+    public function setServices (Service $service) {
+        $this->services[] = $service;
+    }
+    public function setPartners (Partner $partner) {
+        $this->partners[] = $partner;
+    }
+    public function setFacilities (Facility $facility) {
+        $this->facilities[] = $facility;
+    }
+    public function setPopulation (Population $population) {
+        $this->population = $population;
+    }
+}
+
+class CustomerManager {
+    private $pdo;
+
+    public function __construct($pdo) {
+        $this->pdo = $pdo;
+    }
+
+    public function getAllCustomers() {
+        $stmt = $this->pdo->query('SELECT potentialcustomer_id as pid, potentialcustomer_name as name, potentialcustomer_type as ptype, potentialcustomer_location as loc, potentialcustomer_facility as fac, potentialcustomer_tuition as tuition, sector_name as sec, user_id as user FROM tbl_potentialcustomer as pc LEFT JOIN tbl_sector as s ON pc.sector_id = s.sector_id');
+        $customers = [];
+
+        while ($row = $stmt->fetch()) {
+            $customers[$row['pid']] = new PotentialCustomer(
+                $row['pid'],
+                $row['name'],
+                $row['ptype'],
+                $row['loc'],
+                $row['fac'],
+                $row['tuition'],
+                $row['sec'],
+                $row['user']
+            );
+        }
+
+        //* Load Evaluation Data
+        $stmt = $this->pdo->query('SELECT * FROM tbl_evaluation');
+        while ($row = $stmt->fetch()) {
+            if (array_key_exists($row['potentialcustomer_id'], $customers)) {
+                $customers[$row['potentialcustomer_id']]->setEvaluation(new Evaluation(
+                    $row['evaluation_id'],
+                    $row['evaluation_rating'],
+                    $row['evaluation_result'],
+                    $row['evaluation_date']
+                ));
+            }
+        }
+
+        //* Load Contact Data
+        $stmt = $this->pdo->query('SELECT * FROM tbl_contactperson');
+        while ($row = $stmt->fetch()) {
+            if (array_key_exists($row['potentialcustomer_id'], $customers)) {
+                $customers[$row['potentialcustomer_id']]->setContactPerson(new ContactPerson(
+                    $row['contactperson_id'],
+                    $row['contactperson_name'],
+                    $row['contactperson_position'],
+                    $row['contactperson_email'],
+                    $row['contactperson_number']
+                ));
+            }
+        }
+
+        //* Load Program Data
+        $stmt = $this->pdo->query('SELECT existingprograms_id, potentialcustomer_id, program_type FROM tbl_existingprograms as ep LEFT JOIN tbl_program as p ON ep.program_id = p.program_id');
+        while ($row = $stmt->fetch()) {
+            if (array_key_exists($row['potentialcustomer_id'], $customers)) {
+                $customers[$row['potentialcustomer_id']]->setPrograms(new Program (
+                    $row['existingprograms_id'],
+                    $row['program_type']
+                ));
+            }
+        }
+        
+        //* Load Service Data
+        $stmt = $this->pdo->query('SELECT existingservices_id, potentialcustomer_id, services_type FROM tbl_existingservices as es LEFT JOIN tbl_services as s ON es.services_id = s.services_id');
+        while ($row = $stmt->fetch()) {
+            if (array_key_exists($row['potentialcustomer_id'], $customers)) {
+                $customers[$row['potentialcustomer_id']]->setServices(new Service (
+                    $row['existingservices_id'],
+                    $row['services_type']
+                ));
+            }
+        }
+
+        //* Load Partner Data
+        $stmt = $this->pdo->query('SELECT existingpartners_id, existingpartners_years, potentialcustomer_id, partners_name FROM tbl_existingpartners as ep LEFT JOIN tbl_partners as p ON ep.partners_id = p.partners_id');
+        while ($row = $stmt->fetch()) {
+            if (array_key_exists($row['potentialcustomer_id'], $customers)) {
+                $customers[$row['potentialcustomer_id']]->setPartners( new Partner (
+                    $row['existingpartners_id'],
+                    $row['existingpartners_years'],
+                    $row['partners_name']
+                ));
+            }
+        }
+
+        //* Load Facility Data
+        $stmt = $this->pdo->query('SELECT existingfacilities_id, potentialcustomer_id, facility_type FROM tbl_existingfacilities as ef LEFT JOIN tbl_facility as f ON ef.facility_id = f.facility_id');
+        while ($row = $stmt->fetch()) {
+            if (array_key_exists($row['potentialcustomer_id'], $customers)) {
+                $customers[$row['potentialcustomer_id']]->setFacilities( new Facility (
+                    $row['existingfacilities_id'],
+                    $row['facility_type']
+                ));
+            }
+        }
+
+        //* Load Population Data
+        $stmt1 = $this->pdo->query('SELECT population_id as pid, population_count as pcount, potentialcustomer_id as pcid FROM tbl_population as p');
+        while ($row1 = $stmt1->fetch()) {
+            if (array_key_exists($row1['pcid'], $customers)) {
+                $stmt2 = $this->pdo->prepare('SELECT population_id as pid, gradelevel_id as gl, subpopulation_count as count FROM tbl_subpopulation WHERE population_id = ?');
+                $stmt2->execute([$row1['pid']]);
+
+                $subpopulation = [
+                    1 => 0,
+                    2 => 0,
+                    3 => 0,
+                    4 => 0,
+                    5 => 0,
+                    6 => 0,
+                    7 => 0,
+                    8 => 0,
+                    9 => 0,
+                    10 => 0,
+                    11 => 0,
+                    12 => 0,
+                    13 => 0
+                ];
+                while ($row2 = $stmt2->fetch()) {
+                    $subpopulation[$row2['gl']] = $row2['count'];
+                }
+
+                $customers[$row1['pcid']]->setPopulation( new Population (
+                    $row1['pid'],
+                    $row1['pcount'],
+                    $subpopulation
+                ));
+            }
+        }
+
+        return $customers;
+    }
+    public function getPassedCustomers($customers) {
+        $passedCustomers = [];
+
+        foreach ($customers as $customer) {
+            if ($customer->evaluation->result == 'Passed')
+            {
+                $passedCustomers[$customer->id] = $customer;
+            }
+        }
+        return $passedCustomers;
+    }
+}
+
+$potentialCustomers = [];
 
 ?>

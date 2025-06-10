@@ -18,5 +18,14 @@ $user = $_SESSION['user'];
 $user_id = $_SESSION['user_id']; // Corrected to use $_SESSION['user_id']
 $user_type = $_SESSION['user_type'];
 
+$dataManager = new CustomerManager($pdo);
+$potentialCustomers = $dataManager->getAllCustomers();
+$passedCustomers = $dataManager->getPassedCustomers($potentialCustomers);
+
+// get_customer_basic_info();
+// get_customer_contact_info();
+// get_customer_program_info();
+// get_customer_service_info();
+
 include 'views/passedCustomers_view.php';
 ?>

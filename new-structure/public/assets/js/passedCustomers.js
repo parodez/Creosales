@@ -216,3 +216,42 @@ document.getElementById('logoutBtn').addEventListener('click', function(event) {
         }
     });
 });
+
+function show_customer_data(id) {
+    event.preventDefault();
+    Object.entries(passedCustomers_json).forEach(([passedCustomer_id, passedCustomer]) => {
+        if (passedCustomer_id == id) {
+            document.getElementById('name').textContent = passedCustomer.name;
+            document.getElementById('sector').textContent = passedCustomer.sector;
+            document.getElementById('contact_name').textContent = passedCustomer.contactPerson.name;
+            document.getElementById('contact_position').textContent = passedCustomer.contactPerson.position;
+            document.getElementById('contact_email').textContent = passedCustomer.contactPerson.email;
+            document.getElementById('contact_number').textContent = passedCustomer.contactPerson.number;
+
+            document.getElementById('programs').textContent = '';
+            passedCustomer.programs.forEach(program => {
+                document.getElementById('programs').innerHTML += program.type + '<br>';
+            });
+            
+            document.getElementById('services').textContent = '';
+            passedCustomer.services.forEach(service => {
+                document.getElementById('services').innerHTML += service.type + '<br>';
+            });
+
+            document.getElementById('partners').textContent = '';
+            passedCustomer.partners.forEach(partner => {
+                document.getElementById('partners').innerHTML += partner.name + '<br>';
+            });
+
+            document.getElementById('facilities').textContent = '';
+            passedCustomer.facilities.forEach(facility => {
+                document.getElementById('facilities').innerHTML += facility.type + '<br>';
+            });
+
+            document.getElementById('population').textContent = 'Population: ' + passedCustomer.population.count;
+            Object.entries(passedCustomer.population.subpopulation).forEach(([gl, glcount]) => {
+                document.getElementById('g' + gl).innerHTML = 'Grade ' + gl + ': ' + glcount;
+            });
+        }
+    });
+}
