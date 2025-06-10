@@ -514,7 +514,6 @@ class Population {
 }
 
 class PotentialCustomer {
-    // Customer Info
     public int $id, $user_id;
     public string $name, $type, $location, $facility, $tuition, $sector;
 
