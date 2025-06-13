@@ -9,7 +9,6 @@ require_once __DIR__ . '/Program.php';
 require_once __DIR__ . '/Service.php';
 
 class PotentialCustomer {
-    // Customer Info
     public int $id, $user_id;
     public string $name, $type, $location, $facility, $tuition, $sector;
 

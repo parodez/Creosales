@@ -90,7 +90,7 @@ $stmt = $pdo->prepare($query);
 $stmt->execute([$userId]);
 $userDetails = $stmt->fetch();
 
-echo json_encode($userDetails);
+// echo json_encode($userDetails);
 
 // LOOP THROUGH ALL THE POTENTIAL CUSTOMERS
 foreach($potentialCustomers as $potentialCustomer) {

@@ -107,26 +107,26 @@ sectorItems.forEach((item, index) => {
 });
 
 // View All functionality
-const viewAllBtn = document.getElementById('viewAllBtn');
-const summaryItems = document.querySelectorAll('.summary-item');
-let detailsVisible = false;
+// const viewAllBtn = document.getElementById('viewAllBtn');
+// const summaryItems = document.querySelectorAll('.summary-item');
+// let detailsVisible = false;
 
-viewAllBtn.addEventListener('click', function() {
-    detailsVisible = !detailsVisible;
-    summaryItems.forEach(item => {
-        const detailItem = item.querySelector('.detail-item');
+// viewAllBtn.addEventListener('click', function() {
+//     detailsVisible = !detailsVisible;
+//     summaryItems.forEach(item => {
+//         const detailItem = item.querySelector('.detail-item');
 
-        if (detailsVisible) {
-            item.classList.add('expanded');
-            detailItem.classList.remove('hidden');
-            viewAllBtn.innerHTML = 'View Less <i class="fas fa-chevron-up ml-1"></i>';
-        } else {
-            item.classList.remove('expanded');
-            detailItem.classList.add('hidden');
-            viewAllBtn.innerHTML = 'View All <i class="fas fa-chevron-down ml-1"></i>';
-        }
-    });
-});
+//         if (detailsVisible) {
+//             item.classList.add('expanded');
+//             detailItem.classList.remove('hidden');
+//             viewAllBtn.innerHTML = 'View Less <i class="fas fa-chevron-up ml-1"></i>';
+//         } else {
+//             item.classList.remove('expanded');
+//             detailItem.classList.add('hidden');
+//             viewAllBtn.innerHTML = 'View All <i class="fas fa-chevron-down ml-1"></i>';
+//         }
+//     });
+// });
 
 // Add resize observer to handle chart resizing
 const chartBoxes = document.querySelectorAll('.chart-box.wide.elegant, .chart-with-activity');
