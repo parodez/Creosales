@@ -1,5 +1,5 @@
 <?php
-include('../connection.php');
+require_once __DIR__ . '/../connection.php';
 $data = json_decode(file_get_contents('php://input'), true);
 
 // Check if data is valid
@@ -47,5 +47,3 @@ if ($result->num_rows > 0) {
 } else {
     echo json_encode(['success' => false, 'message' => 'Incorrect username']);
 }
-?>
-

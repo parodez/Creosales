@@ -4,6 +4,10 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 include('../backend/fetch_data_creosales.php'); // Ensure this is included
+require_once __DIR__ . '/../backend/connection.php';
+require_once __DIR__ . '/../backend/managers/CacheManager.php';
+require_once __DIR__ . '/../backend/managers/CustomerManager.php';
+require_once __DIR__ . '/../backend/managers/UserManager.php';
 
 // Debugging: Check session data
 if (!isset($_SESSION['user']) || !isset($_SESSION['user_type'])) {

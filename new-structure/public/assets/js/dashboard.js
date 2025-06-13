@@ -168,7 +168,7 @@ Swal.fire({
     }
 }).then((result) => {
     if (result.isConfirmed) {
-        window.location.href = '../../Backend/LoginSystemBackend/logout.php';
+        window.location.href = '../backend/LoginSystem/logout.php';
     }
 });
 });

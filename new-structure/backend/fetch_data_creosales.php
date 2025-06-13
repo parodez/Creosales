@@ -212,10 +212,10 @@ $userQuery = "
     ORDER BY full_name
 ";
 $userResult = $conn->query($userQuery);
-$users = [];
-while ($row = $userResult->fetch_assoc()) {
-    $users[] = $row;
-}
+// $users = [];
+// while ($row = $userResult->fetch_assoc()) {
+//     $users[] = $row;
+// }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'update_client') {
     $potentialcustomer_id = intval($_POST['potentialcustomer_id']);
