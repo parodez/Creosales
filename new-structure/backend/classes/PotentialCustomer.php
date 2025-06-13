@@ -1,12 +1,12 @@
 <?php 
 
-require_once 'ContactPerson.php';
-require_once 'Evaluation.php';
-require_once 'Facility.php';
-require_once 'Partner.php';
-require_once 'Population.php';
-require_once 'Program.php';
-require_once 'Service.php';
+require_once __DIR__ . '/ContactPerson.php';
+require_once __DIR__ . '/Evaluation.php';
+require_once __DIR__ . '/Facility.php';
+require_once __DIR__ . '/Partner.php';
+require_once __DIR__ . '/Population.php';
+require_once __DIR__ . '/Program.php';
+require_once __DIR__ . '/Service.php';
 
 class PotentialCustomer {
     // Customer Info

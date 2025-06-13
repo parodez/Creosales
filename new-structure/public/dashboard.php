@@ -1,7 +1,11 @@
 <?php
-include('../backend/connection.php');
+require_once __DIR__ . '/../backend/connection.php';
+// include('../backend/connection.php');
 session_start();
 include '../backend/fetch_data_creosales.php';
+
+require_once __DIR__ . '/../backend/managers/CacheManager.php';
+require_once __DIR__ . '/../backend/managers/CustomerManager.php';
 
 // Check if user is logged in
 if (!isset($_SESSION['user'])) {
@@ -14,13 +18,13 @@ $user_type = isset($_SESSION['user_type']) ? $_SESSION['user_type'] : null; // E
 
 
 // Fetch user details
-$userId = $_SESSION['user_id'];
-$userQuery = "SELECT user_firstname, user_lastname, user_department, user_position FROM tbl_user WHERE user_id = ?";
-$userStmt = $conn->prepare($userQuery);
-$userStmt->bind_param("i", $userId);
-$userStmt->execute();
-$userResult = $userStmt->get_result();
-$userDetails = $userResult->fetch_assoc();
+// $userId = $_SESSION['user_id'];
+// $userQuery = "SELECT user_firstname, user_lastname, user_department, user_position FROM tbl_user WHERE user_id = ?";
+// $userStmt = $conn->prepare($userQuery);
+// $userStmt->bind_param("i", $userId);
+// $userStmt->execute();
+// $userResult = $userStmt->get_result();
+// $userDetails = $userResult->fetch_assoc();
 
 // Adjust total clients count based on user type
 if ($user_type === 0) {
@@ -43,149 +47,86 @@ if ($user_type === 0) {
     $evaluatedClients = $totalClientsRow['total_clients'];
 }
 
-// Query to get the average rating by sector
-// prpb
-$averageRatingBySector_query = "SELECT s.sector_name, AVG(e.evaluation_rating) as avg_rating 
-          FROM tbl_evaluation e
-          JOIN tbl_potentialcustomer cl ON e.potentialcustomer_id = cl.potentialcustomer_id
-          JOIN tbl_sector s ON cl.sector_id = s.sector_id
-          GROUP BY s.sector_name
-          ORDER BY s.sector_name";
-
-$averageRatingBySector_result = mysqli_query($conn, $averageRatingBySector_query);
-
-$averageRatingBySector_data = [];
-while ($row = mysqli_fetch_assoc($averageRatingBySector_result)) {
-    $averageRatingBySector_data[$row['sector_name']] = round($row['avg_rating'], 1);
-}
-
-$averageRatingBySector = json_encode($averageRatingBySector_data);
-
-// Query to get the total average rating of all clients
-$totalAvgQuery = "SELECT AVG(evaluation_rating) as total_avg_rating FROM tbl_evaluation";
-$totalAvgResult = mysqli_query($conn, $totalAvgQuery);
-$totalAvgRow = mysqli_fetch_assoc($totalAvgResult);
-$totalAvgRating = round($totalAvgRow['total_avg_rating'], 1);
-
-// Query to get the last update date and the user who made the update
-$lastUpdateQuery = "SELECT MAX(e.evaluation_date) as last_update, e.potentialcustomer_id, cl.user_id 
-                    FROM tbl_evaluation e
-                    JOIN tbl_potentialcustomer cl ON e.potentialcustomer_id = cl.potentialcustomer_id";
-$lastUpdateResult = mysqli_query($conn, $lastUpdateQuery);
-$lastUpdateRow = mysqli_fetch_assoc($lastUpdateResult);
-$lastUpdateDate = $lastUpdateRow['last_update'] ? date('M d, Y', strtotime($lastUpdateRow['last_update'])) : 'No updates found';
-$lastUpdateUserId = $lastUpdateRow['user_id'];
-
-// Query to get the user details who made the last update
-$userQuery = "SELECT user_firstname, user_lastname, user_position 
-              FROM tbl_user 
-              WHERE user_id = $lastUpdateUserId";
-$userResult = mysqli_query($conn, $userQuery);
-$userRow = mysqli_fetch_assoc($userResult);
-$lastUpdateUserName = $userRow ? $userRow['user_firstname'] . ' ' . $userRow['user_lastname'] : 'Unknown';
-$lastUpdateUserPosition = $userRow ? $userRow['user_position'] : 'Unknown';
-
-// Query to get the number of clients evaluated on the last update date
-$clientsEvaluatedQuery = "SELECT COUNT(*) as clients_evaluated 
-                          FROM tbl_evaluation 
-                          WHERE evaluation_date = '{$lastUpdateRow['last_update']}'";
-$clientsEvaluatedResult = mysqli_query($conn, $clientsEvaluatedQuery);
-$clientsEvaluatedRow = mysqli_fetch_assoc($clientsEvaluatedResult);
-$clientsEvaluatedCount = $clientsEvaluatedRow['clients_evaluated'] ?? 0;
-
-// CLIENTS START
-// prpb
-
-// Queries the number of clients per sector
-$query = "SELECT s.sector_name, COUNT(cl.potentialcustomer_id) as client_count
-          FROM tbl_potentialcustomer cl
-          JOIN tbl_sector s ON cl.sector_id = s.sector_id
-          GROUP BY s.sector_name
-          ORDER BY FIELD(s.sector_name, 'School', 'Government', 'Sponsor', 'Industry')";
-$result = mysqli_query($conn, $query);
-
-// Initialize clientData values
-$clientData = [
-    'School' => 0,
-    'Government' => 0,
-    'Sponsor' => 0,
-    'Industry' => 0
-];
-
-// Stores the count of each client per sector
-$totalClients = 0;
-while ($row = mysqli_fetch_assoc($result)) {
-    $clientData[$row['sector_name']] = $row['client_count'];
-    $totalClients += $row['client_count'];
-}
-
-// CLIENTS END
-
-// EVALUATIONS START
-// prpb
-
-// Queries the count of instances of each evaluation_result
-$evaluationResultQuery = "SELECT evaluation_result, COUNT(*) as count 
-                          FROM tbl_evaluation 
-                          GROUP BY evaluation_result";
-$evaluationResultResult = mysqli_query($conn, $evaluationResultQuery);
-
-// Initialize evaluationResults values
-$evaluationResults = [
-    'Passed'=>0,
-    'Conditional'=>0,
-    'Failed'=>0
-];
-
-// Stores the count of each instance per result
-while ($row = mysqli_fetch_assoc($evaluationResultResult)) {
-    $evaluationResults[$row['evaluation_result']] = $row['count'];
-}
-
-$evaluationResults_json = json_encode($evaluationResults);
-
-// EVALUATIONS END
-
-// Determine overall client result
-$overallResult = 'Conditional';
-
-if ($evaluationResults['Passed'] >= $evaluationResults['Failed'] && $evaluationResults['Passed'] >= $evaluationResults['Conditional']) {
-    $overallResult = 'Passed';
-} elseif ($evaluationResults['Failed'] > $evaluationResults['Passed'] && $evaluationResults['Failed'] > $evaluationResults['Conditional']) {
-    $overallResult = 'Failed';
-}
-
-$evaluationCounts = [];
-
-// Fetch the number of clients evaluated by the logged-in user
-$evaluationCountQuery = "SELECT s.sector_name, COUNT(e.evaluation_id) as evaluated_count
-                         FROM tbl_evaluation e
-                         JOIN tbl_potentialcustomer cl ON e.potentialcustomer_id = cl.potentialcustomer_id
-                         JOIN tbl_sector s ON cl.sector_id = s.sector_id
-                         WHERE cl.user_id = ?
-                         GROUP BY s.sector_name";
-$evaluationCountStmt = $conn->prepare($evaluationCountQuery);
-$evaluationCountStmt->bind_param("i", $_SESSION['user_id']);
-$evaluationCountStmt->execute();
-$evaluationCountResult = $evaluationCountStmt->get_result();
-
-while ($row = $evaluationCountResult->fetch_assoc()) {
-    $evaluationCounts[$row['sector_name']] = $row['evaluated_count'];
-}
-
-// Fetch all clients for the logged-in user for additional debugging
-$clientQuery = "SELECT * FROM tbl_potentialcustomer WHERE user_id = ?";
-$clientStmt = $conn->prepare($clientQuery);
-$clientStmt->bind_param("i", $_SESSION['user_id']);
-$clientStmt->execute();
-$clientResult = $clientStmt->get_result();
-
-// Define consistent colors for sectors
+// DEFINE CONSISTENT COLORS FOR SECTORS
 $sectorColors = [
     "School" => "#22758e",
     "Government" => "#4729a6",
     "Sponsor" => "#8c6b70",
     "Industry" => "#832d6d"
 ];
+
+// GET DATA FROM CACHE
+// UPDATE CACHE IF OUTDATED
+$cache = new CacheManager();
+$fetcher = new CustomerManager($pdo);
+$potentialCustomers = $cache->getOrSet('potentialCustomers', fn() => $fetcher->getAllCustomers(), 300);
+
+// INITIALIZE EVALUATION RESULTS
+$evaluationResults = [
+    'Passed' => 0,
+    'Conditional' => 0,
+    'Failed' => 0
+];
+// INITIALIZE CLIENTS PER SECTOR
+$clientsPerSector = [
+    'School' => 0,
+    'Government' => 0,
+    'Sponsor' => 0,
+    'Industry' => 0
+];
+// INITIALIZE TOTAL CLIENTS
+$totalClients = 0;
+// INITIALIZE LATEST EVALUATION
+$latestEvaluation = [
+    'date' => '2000-01-01',
+    'user' => '',
+    'user_position' => ''
+];
+
+// GET USER DETAILS
+$userId = $_SESSION['user_id'];
+$query = "SELECT user_firstname, user_lastname, user_department, user_position FROM tbl_user WHERE user_id = ?";
+$stmt = $pdo->prepare($query);
+$stmt->execute([$userId]);
+$userDetails = $stmt->fetch();
+
+echo json_encode($userDetails);
+
+// LOOP THROUGH ALL THE POTENTIAL CUSTOMERS
+foreach($potentialCustomers as $potentialCustomer) {
+    // GET NUMBER OF CLIENTS GROUPED PER EVALUATION RESULT
+    if (array_key_exists($potentialCustomer->evaluation->result, $evaluationResults)) {
+        $evaluationResults[$potentialCustomer->evaluation->result] += 1;
+    }
+    // GET NUMBER OF CLIENTS PER SECTOR AND OF TOTAL CLIENTS
+    if (array_key_exists($potentialCustomer->sector, $clientsPerSector)) {
+        $clientsPerSector[$potentialCustomer->sector] += 1;
+        $totalClients += 1;
+    }
+    // GET LAST UPDATED EVALUATION
+    if ($potentialCustomer->evaluation->date > $latestEvaluation['date']) {
+        $latestEvaluation['date'] = $potentialCustomer->evaluation->date;
+        $latestEvaluation['user'] = $potentialCustomer->user_id;
+    }
+}
+
+// GET USER DETAILS OF LAST UPDATER
+$stmt = $pdo->prepare( "SELECT user_firstname, user_lastname, user_department, user_position FROM tbl_user WHERE user_id = ?");
+$stmt->execute([$latestEvaluation['user']]);
+$row = $stmt->fetch();
+if ($row) {
+    $latestEvaluation['user'] = $row['user_firstname'] . " " . $row['user_lastname'];
+    $latestEvaluation['user_position'] = $row['user_position'];
+}
+
+// GET AVERAGE OF ALL EVALUATION RESULTS
+$overallResult = 'Conditional';
+if ($evaluationResults['Passed'] >= $evaluationResults['Failed'] && $evaluationResults['Passed'] >= $evaluationResults['Conditional']) {
+    $overallResult = 'Passed';
+} elseif ($evaluationResults['Failed'] > $evaluationResults['Passed'] && $evaluationResults['Failed'] > $evaluationResults['Conditional']) {
+    $overallResult = 'Failed';
+}
+
+$evaluationResults_json = json_encode($evaluationResults);
 
 include 'views/dashboard_view.php';

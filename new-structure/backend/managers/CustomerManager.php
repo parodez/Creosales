@@ -1,6 +1,6 @@
 <?php
 
-require_once '../classes/PotentialCustomer.php';
+require_once __DIR__ . '/../classes/PotentialCustomer.php';
 
 class CustomerManager {
     private $pdo;

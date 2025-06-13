@@ -9,7 +9,8 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat&display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
@@ -22,10 +23,10 @@
 
 </head>
 <style>
-    * {
-        font-family: 'Montserrat', sans-serif;
-        font-size: 20px;
-    }
+* {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 20px;
+}
 </style>
 
 <body>
@@ -53,24 +54,28 @@
         </div>
         <ul>
             <li style="font-size: 18px; display: flex; align-items: center;">
-                <a href="evaluations.php" style="flex-grow: 1; display: flex; align-items: center; justify-content: space-between;">
+                <a href="evaluations.php"
+                    style="flex-grow: 1; display: flex; align-items: center; justify-content: space-between;">
                     <div style="display: flex; align-items: center;">
                         <i class="bi bi-people"></i>
                         <span>Evaluations</span>
                     </div>
-                    <span style="background-color: rgba(255, 255, 255, 0.1); color: #fff; font-size: 15px; font-weight: bold; padding: 3px 15px; border-radius: 5px;">
+                    <span
+                        style="background-color: rgba(255, 255, 255, 0.1); color: #fff; font-size: 15px; font-weight: bold; padding: 3px 15px; border-radius: 5px;">
                         <?php echo htmlspecialchars($user_type === 0 ? $totalClients : $evaluatedClients); ?>
                     </span>
                 </a>
             </li>
             <li style="font-size: 18px; display: flex; align-items: center;">
-                <a href="passedCustomers.php" style="flex-grow: 1; display: flex; align-items: center; justify-content: space-between;">
+                <a href="passedCustomers.php"
+                    style="flex-grow: 1; display: flex; align-items: center; justify-content: space-between;">
                     <div style="display: flex; align-items: center;">
                         <i class="bi bi-people"></i>
                         <span>Passed Customers</span>
                     </div>
-                    <span style="background-color: rgba(255, 255, 255, 0.1); color: #fff; font-size: 15px; font-weight: bold; padding: 3px 15px; border-radius: 5px;">
-                        <!-- <?php echo htmlspecialchars($user_type === 0 ? $totalClients : $evaluatedClients); ?> -->
+                    <span
+                        style="background-color: rgba(255, 255, 255, 0.1); color: #fff; font-size: 15px; font-weight: bold; padding: 3px 15px; border-radius: 5px;">
+                        <?php echo htmlspecialchars($user_type === 0 ? $evaluationResults['Passed'] : $evaluationResults['Passed']); ?>
                     </span>
                 </a>
             </li>
@@ -95,19 +100,22 @@
                 <div class="summary-details">
                     <div class="summary-item">
                         <h3>Number of Potential Customers</h3>
-                        <p style="color: #EDFF00;">School: <?php echo $clientData['School'] ?? 'N/A'; ?></p>
-                        <p style="color: #60FFA0">Government: <?php echo $clientData['Government'] ?? 'N/A'; ?></p>
-                        <p style="color: #9F6BA0">Sponsor: <?php echo $clientData['Sponsor'] ?? 'N/A'; ?></p>
-                        <p style="color: #2274A5">Industry: <?php echo $clientData['Industry'] ?? 'N/A'; ?></p>
+                        <p style="color: #EDFF00;">School: <?php echo $clientsPerSector['School'] ?? 'N/A'; ?></p>
+                        <p style="color: #60FFA0">Government: <?php echo $clientsPerSector['Government'] ?? 'N/A'; ?>
+                        </p>
+                        <p style="color: #9F6BA0">Sponsor: <?php echo $clientsPerSector['Sponsor'] ?? 'N/A'; ?></p>
+                        <p style="color: #2274A5">Industry: <?php echo $clientsPerSector['Industry'] ?? 'N/A'; ?></p>
                     </div>
-                <div class="summary-item">
-                    <h3>Average Client Result</h3>
-                    <p class="<?php echo strtolower($overallResult); ?>"><?php echo $overallResult; ?></p>
-                </div>
-                <div class="summary-item">
-                    <h3>Last Update</h3>
-                    <p><?php echo $lastUpdateDate; ?></p>
-                </div>
+                    <div class="summary-item">
+                        <h3>Average Client Result</h3>
+                        <p class="<?php echo strtolower($overallResult); ?>"><?php echo $overallResult; ?></p>
+                    </div>
+                    <div class="summary-item">
+                        <h3>Last Update</h3>
+                        <p><?php echo $latestEvaluation['date']; ?></p>
+                        <p>By: <?php echo $latestEvaluation['user'] ?></p>
+                        <p>Position: <?php echo $latestEvaluation['user_position'] ?></p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -116,31 +124,9 @@
         © 2025 Creosales | Creotec Philippines. All Rights Reserved.
     </footer>
     <script>
-        const averageRatingBySector = <?php echo $averageRatingBySector; ?>;
-        const evaluationResults = <?php echo $evaluationResults_json; ?>;
+    const evaluationResults = <?php echo $evaluationResults_json; ?>;
     </script>
 
-    <!-- to remove? -->
-    <div class="admin-activity" style="<?php echo $user_type == 0 ? 'display:none;' : ''; ?>">
-        <?php if ($user_type == 0): ?>
-            <h3>Admin Activity</h3>
-        <?php endif; ?>
-
-        <?php if ($user_type == 1): ?>
-            <h3>User Activity</h3>
-        <?php endif; ?>
-
-        <?php foreach ($sectorColors as $sector => $color): ?>
-            <div class="activity-item <?php echo strtolower($sector); ?>">
-                <span class="indicator" style="background-color: <?php echo $color; ?>"></span>
-                <span><?php echo $sector; ?> Evaluated: <?php echo $evaluationCounts[$sector] ?? 0; ?> <?php echo ($evaluationCounts[$sector] ?? 0) == 1 ? 'client' : 'clients'; ?></span>
-            </div>
-        <?php endforeach; ?>
-        <div class="activity-info text-right mt-4">
-            <small><?php echo $userDetails['user_firstname'] . ' ' . $userDetails['user_lastname']; ?></small><br>
-            <small><?php echo $userDetails['user_position']; ?></small>
-        </div>
-    </div>
-
 </body>
+
 </html>
