@@ -48,9 +48,9 @@
 
     <div class="sidebar" id="sidebar">
         <div class="profile">
-            <h4 style="font-weight:bold"><?php echo $user['user_firstname'] . ' ' . $user['user_lastname']; ?></h4>
-            <p style="font-size: small;"><?php echo $user['user_department']; ?></p>
-            <p style="font-size: small;"><?php echo $user['user_position']; ?></p>
+            <h4 style="font-weight:bold"><?php echo $currentUser->getFullName(); ?></h4>
+            <p style="font-size: small;"><?php echo $currentUser->department; ?></p>
+            <p style="font-size: small;"><?php echo $currentUser->position; ?></p>
         </div>
         <ul>
             <li style="font-size: 18px; display: flex; align-items: center;">
@@ -62,7 +62,7 @@
                     </div>
                     <span
                         style="background-color: rgba(255, 255, 255, 0.1); color: #fff; font-size: 15px; font-weight: bold; padding: 3px 15px; border-radius: 5px;">
-                        <?php echo htmlspecialchars($user_type === 0 ? $totalClients : $evaluatedClients); ?>
+                        <?php echo htmlspecialchars($currentUserType === 0 ? $totalClients : $userTotalEvaluatedCustomers); ?>
                     </span>
                 </a>
             </li>
@@ -75,7 +75,7 @@
                     </div>
                     <span
                         style="background-color: rgba(255, 255, 255, 0.1); color: #fff; font-size: 15px; font-weight: bold; padding: 3px 15px; border-radius: 5px;">
-                        <?php echo htmlspecialchars($user_type === 0 ? $evaluationResults['Passed'] : $evaluationResults['Passed']); ?>
+                        <?php echo htmlspecialchars($currentUserType === 0 ? $evaluationResults['Passed'] : $evaluationResults['Passed']); ?>
                     </span>
                 </a>
             </li>
