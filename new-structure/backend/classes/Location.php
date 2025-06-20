@@ -1,27 +1,21 @@
 <?php
-class Location {
-    public string $name;
-    public $municipality = [
-        'id'=>'N/A',
-        'province'=>'N/A',
-        'name'=>'N/A',
-    ];
-    public $province = [
-        'id'=>'N/A',
-        'region'=>'N/A',
-        'name'=>'N/A'
-    ];
-    public $region = [
-        'id'=>'N/A',
-        'name'=>'N/A',
-        'desc'=>'N/A'
+class Location
+{
+    public string $fullAddress;
+    public string $municipality;
+    public string $province;
+    public array $region = [
+        'name' => '',
+        'description' => ''
     ];
 
-    public function __construct($name) {
-        $this->name = $name;
+    public function __construct($fullAddress)
+    {
+        $this->fullAddress = $fullAddress;
     }
 
-    public function setLocationInfo($municipality, $province, $region) {
+    public function setLocationInfo($municipality, $province, $region)
+    {
         $this->municipality = $municipality;
         $this->province = $province;
         $this->region = $region;

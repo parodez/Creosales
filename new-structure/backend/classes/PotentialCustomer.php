@@ -11,23 +11,14 @@ require_once __DIR__ . '/Location.php';
 
 class PotentialCustomer
 {
-    // public int $id, $user_id;
-    // public string $name, $type, $facility, $tuition, $sector, $municipality, $province, $region;
-
-    // public Location $location;
-    // public ContactPerson $contactPerson;
-    // public Evaluation $evaluation;
-    // public Population $population;
-    // public $programs = [], $services = [], $partners = [], $facilities = [];
-
     public function __construct(
         public int $id,
         public string $name,
         public int $type,
-        public string $location,
+        public Location $location,
         public string $facility,
         public string $tuition,
-        public int $sector_id,
+        public string $sector,
         public int $user_id,
         public array $contactPerson = [],
         public array $evaluation = [],
@@ -37,27 +28,4 @@ class PotentialCustomer
         public array $partners = [],
         public array $facilities = []
     ) {}
-
-    // public function setEvaluation(Evaluation $evaluation) {
-    //     $this->evaluation = $evaluation;
-    // }
-
-    // public function setContactPerson(ContactPerson $contactPerson) {
-    //     $this->contactPerson = $contactPerson;
-    // }
-    // public function setPrograms(Program $program) {
-    //     $this->programs[] = $program;
-    // }
-    // public function setServices (Service $service) {
-    //     $this->services[] = $service;
-    // }
-    // public function setPartners (Partner $partner) {
-    //     $this->partners[] = $partner;
-    // }
-    // public function setFacilities (Facility $facility) {
-    //     $this->facilities[] = $facility;
-    // }
-    // public function setPopulation (Population $population) {
-    //     $this->population = $population;
-    // }
 }

@@ -128,13 +128,13 @@
                         <?php foreach ($potentialCustomers as $potentialCustomer): ?>
                         <tr>
                             <td><?= $potentialCustomer->name ?></td>
-                            <td><?= $potentialCustomer->location ?></td>
+                            <td><?= $potentialCustomer->location->fullAddress ?></td>
                             <td style="text-align:center;"><?= $potentialCustomer->sector ?></td>
-                            <td style="text-align:center; color: <?php 
-                                if ($potentialCustomer->evaluation->result == 'Passed') echo 'green'; 
-                                else if ($potentialCustomer->evaluation->result == 'Failed') echo 'red'; 
-                                else echo 'white' ?>">
-                                <?= $potentialCustomer->evaluation->result ?>
+                            <td style="text-align:center; color: <?php
+                                                                        if ($potentialCustomer->evaluation['result'] == 'Passed') echo 'green';
+                                                                        else if ($potentialCustomer->evaluation['result'] == 'Failed') echo 'red';
+                                                                        else echo 'white' ?>">
+                                <?= $potentialCustomer->evaluation['result'] ?>
                             </td>
                             <td>
                                 <div class="action-buttons">

@@ -1,6 +1,7 @@
 <?php
 
 require_once __DIR__ . '/../classes/PotentialCustomer.php';
+require_once __DIR__ . '/../classes/Location.php';
 
 class CustomerManager
 {
@@ -23,6 +24,17 @@ class CustomerManager
             $potentialCustomer_tuition = $row1['tuition'];
             $potentialCustomer_sectorId = $row1['sec'];
             $potentialCustomer_userId = $row1['user'];
+
+            //* LOCATION DATA
+            $fullAddress = $potentialCustomer_location;
+            $splitLocation_array = explode(', ', $potentialCustomer_location);
+            $province = $splitLocation_array[count($splitLocation_array) - 1];
+            $municipality = $splitLocation_array[count($splitLocation_array) - 2];
+            $locationData = new Location($fullAddress);
+            $tempStmt = $this->pdo->prepare('SELECT r.region_name, r.region_description FROM tbl_region AS r LEFT JOIN tbl_province AS p ON r.region_id=p.region_id WHERE province_name = ?');
+            $tempStmt->execute([$province]);
+            $tempRow = $tempStmt->fetch();
+            $locationData->setLocationInfo($municipality, $province, ['name' => $tempRow['region_name'], 'description' => $tempRow['region_description']]);
 
             //* CONTACT PERSON DATA
             $tempStmt = $this->pdo->prepare('SELECT * FROM tbl_contactperson WHERE potentialcustomer_id = ?');
@@ -129,7 +141,7 @@ class CustomerManager
                 $potentialCustomer_id,
                 $potentialCustomer_name,
                 $potentialCustomer_type,
-                $potentialCustomer_location,
+                $locationData,
                 $potentialCustomer_facility,
                 $potentialCustomer_tuition,
                 $potentialCustomer_sectorId,

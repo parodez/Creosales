@@ -242,16 +242,20 @@
                         <div class="info-item">
                             <div class="info-label">Location</div>
                             <div id="locationField">
-                                <?php echo htmlspecialchars($potentialCustomer->location ?? 'N/A'); ?>
+                                <?php echo htmlspecialchars($potentialCustomer->location->fullAddress ?? 'N/A'); ?>
                             </div>
                         </div>
                         <div class="info-item">
                             <div class="info-label">Region</div>
-                            <div><?php echo htmlspecialchars($location['region_name'] ?? 'N/A'); ?></div>
+                            <div>
+                                <?php echo htmlspecialchars($potentialCustomer->location->region['name'] ?? 'N/A'); ?>
+                            </div>
                         </div>
                         <div class="info-item">
                             <div class="info-label">Region Description</div>
-                            <div><?php echo htmlspecialchars($location['region_description'] ?? 'N/A'); ?></div>
+                            <div>
+                                <?php echo htmlspecialchars($potentialCustomer->location->region['description'] ?? 'N/A'); ?>
+                            </div>
                         </div>
                     </div>
                     <hr style="margin-top: 20px; border-color: #ddd;">

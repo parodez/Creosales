@@ -72,8 +72,8 @@ $userTotalEvaluatedCustomers = 0;
 //* LOOP THROUGH ALL THE POTENTIAL CUSTOMERS
 foreach ($potentialCustomers as $potentialCustomer) {
     //* GET NUMBER OF CLIENTS GROUPED PER EVALUATION RESULT
-    if (array_key_exists($potentialCustomer->evaluation->result, $evaluationResults)) {
-        $evaluationResults[$potentialCustomer->evaluation->result] += 1;
+    if (array_key_exists($potentialCustomer->evaluation['result'], $evaluationResults)) {
+        $evaluationResults[$potentialCustomer->evaluation['result']] += 1;
     }
     //* GET NUMBER OF CLIENTS PER SECTOR AND OF TOTAL CLIENTS
     if (array_key_exists($potentialCustomer->sector, $clientsPerSector)) {
@@ -85,8 +85,8 @@ foreach ($potentialCustomers as $potentialCustomer) {
         $userTotalEvaluatedCustomers++;
     }
     //* GET LAST UPDATED EVALUATION
-    if ($potentialCustomer->evaluation->date > $latestEvaluation['date']) {
-        $latestEvaluation['date'] = $potentialCustomer->evaluation->date;
+    if ($potentialCustomer->evaluation['date'] > $latestEvaluation['date']) {
+        $latestEvaluation['date'] = $potentialCustomer->evaluation['date'];
         $latestEvaluation['user'] = $potentialCustomer->user_id;
     }
 }

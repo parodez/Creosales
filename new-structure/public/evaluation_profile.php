@@ -1,6 +1,6 @@
 <?php
 if (session_status() === PHP_SESSION_NONE) {
-    session_start(); 
+    session_start();
 }
 
 // include '../Backend/fetch_data_creosales.php';
@@ -35,10 +35,10 @@ $potentialCustomers = $cache->getOrSet('potentialCustomers', fn() => $customerFe
 $potentialCustomer = $potentialCustomers[$_GET['id']];
 
 $eval_summary = [
-    'evaluation_id' => $potentialCustomer->evaluation->id,
-    'evaluation_rating' => $potentialCustomer->evaluation->rating,
-    'evaluation_result' => $potentialCustomer->evaluation->result,
-    'evaluation_date' => $potentialCustomer->evaluation->date
+    'evaluation_id' => $potentialCustomer->evaluation['id'],
+    'evaluation_rating' => $potentialCustomer->evaluation['rating'],
+    'evaluation_result' => $potentialCustomer->evaluation['result'],
+    'evaluation_date' => $potentialCustomer->evaluation['date']
 ];
 
 // if ($userType === 0) {
@@ -63,4 +63,3 @@ $eval_summary = [
 // $user = $_SESSION['user'];
 
 include 'views/evaluations_profile_view.php';
-?>
