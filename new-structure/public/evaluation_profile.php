@@ -3,7 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-// include '../Backend/fetch_data_creosales.php';
+include '../backend/fetch_data_creosales.php';
 require_once __DIR__ . '/../backend/connection.php';
 require_once __DIR__ . '/../backend/managers/CacheManager.php';
 require_once __DIR__ . '/../backend/managers/CustomerManager.php';
@@ -77,8 +77,8 @@ while ($row = $stmt->fetch()) {
 //     $row = $result->fetch_assoc();
 //     $evaluatedClients = $row['evaluated_clients'];
 // }
+require_once __DIR__ . '/../backend/data/totalClients.php';
 
-
-// $user = $_SESSION['user'];
+$user = $_SESSION['user'];
 
 include 'views/evaluations_profile_view.php';

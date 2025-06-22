@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('moreDetailsBtn').addEventListener('click', function () {
 
-        fetch(`../Backend/fetch_data_creosales.php?action=fetch_contact_details&client_id=${clientId}`)
+        fetch(`../../../backend/fetch_data_creosales.php?action=fetch_contact_details&client_id=${clientId}`)
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
