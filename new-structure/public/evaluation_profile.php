@@ -41,6 +41,25 @@ $eval_summary = [
     'evaluation_date' => $potentialCustomer->evaluation['date']
 ];
 
+//* FETCH EVALUATION DATA
+$stmt = $pdo->prepare("SELECT cr.criteria_criterion,
+                          r.rating_id,
+                          r.rating_score, 
+                          e.evaluation_rating, 
+                          e.evaluation_result, 
+                          e.evaluation_date, 
+                          r.rating_notes 
+                   FROM tbl_evaluation e
+                   INNER JOIN tbl_rating r ON e.evaluation_id = r.evaluation_id
+                   INNER JOIN tbl_criteria cr ON r.criteria_id = cr.criteria_id
+                   WHERE e.potentialcustomer_id = ?
+                   ORDER BY cr.criteria_id ASC");
+$stmt->execute([$potentialCustomer->id]);
+while ($row = $stmt->fetch()) {
+    $row['rating_score'] = number_format((float)$row['rating_score'], 1, '.', '');
+    $evaluations[] = $row;
+}
+
 // if ($userType === 0) {
 //     $totalClientsQuery = "SELECT COUNT(*) as total_clients FROM tbl_potentialcustomer";
 //     $totalClientsResult = mysqli_query($conn, $totalClientsQuery);
