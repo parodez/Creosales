@@ -186,10 +186,6 @@ document.addEventListener('DOMContentLoaded', function () {
             .catch(error => console.log('Error:', error));
     });
 
-    function closeMoreDetailsModal() {
-        document.getElementById('moreDetailsModal').style.display = 'none';
-    }
-
     window.addEventListener('click', function (event) {
         const modal = document.getElementById('moreDetailsModal');
         if (event.target === modal) {
@@ -197,6 +193,10 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+function closeMoreDetailsModal() {
+    document.getElementById('moreDetailsModal').style.display = 'none';
+}
 
 // Define imagesData and other variables at the top level
         let currentImageIndex = 0;
