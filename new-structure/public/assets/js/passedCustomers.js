@@ -247,10 +247,9 @@ function show_customer_data(id) {
             passedCustomer.facilities.forEach(facility => {
                 document.getElementById('facilities').innerHTML += facility.type + '<br>';
             });
-
             document.getElementById('population').textContent = 'Population: ' + passedCustomer.population.count;
-            Object.entries(passedCustomer.population.subpopulation).forEach(([gl, glcount]) => {
-                document.getElementById('g' + gl).innerHTML = 'Grade ' + gl + ': ' + glcount;
+            Object.entries(passedCustomer.population.subPopulation).forEach(([gl, glcount]) => {
+                document.getElementById('g' + gl).innerHTML += glcount;
             });
         }
     });
