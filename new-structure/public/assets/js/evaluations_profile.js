@@ -142,7 +142,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     document.getElementById('moreDetailsBtn').addEventListener('click', function () {
 
-        fetch(`../../../backend/fetch_data_creosales.php?action=fetch_contact_details&client_id=${clientId}`)
+        fetch(`../backend/data/contactDetails.php?action=fetch_contact_details&client_id=${clientId}`)
             .then(response => response.json())
             .then(data => {
                 if (data.status === 'success') {
@@ -183,7 +183,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     document.getElementById('moreDetailsModal').style.display = 'block';
                 }
             })
-            .catch(error => console.error('Error:', error));
+            .catch(error => console.log('Error:', error));
     });
 
     function closeMoreDetailsModal() {
