@@ -57,7 +57,7 @@
                     </div>
                     <span
                         style="background-color: rgba(255, 255, 255, 0.1); color: #fff; font-size: 15px; font-weight: bold; padding: 3px 15px; border-radius: 5px;">
-                        <?php echo htmlspecialchars($user_type === 0 ? $totalClients : $evaluatedClients); ?>
+                        <?php echo htmlspecialchars($currentUserType === 0 ? $totalClients : $evaluatedClients); ?>
                     </span>
                 </a>
             </li>

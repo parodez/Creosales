@@ -3,7 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-include '../backend/fetch_data_creosales.php';
+// include '../backend/fetch_data_creosales.php';
 require_once __DIR__ . '/../backend/connection.php';
 require_once __DIR__ . '/../backend/managers/CacheManager.php';
 require_once __DIR__ . '/../backend/managers/CustomerManager.php';
@@ -13,7 +13,6 @@ if (!isset($_SESSION['user'])) {
     header('Location: ../Backend/LoginSystemBackend/validate_login.php');
     exit();
 }
-
 
 //* GET USER DATA FROM SESSION
 $currentUser_id = $_SESSION['user_id'];
@@ -78,6 +77,7 @@ while ($row = $stmt->fetch()) {
 //     $evaluatedClients = $row['evaluated_clients'];
 // }
 require_once __DIR__ . '/../backend/data/totalClients.php';
+require_once __DIR__ . '/../backend/data/images.php';
 
 $user = $_SESSION['user'];
 
