@@ -15,11 +15,12 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
     <link rel="stylesheet" href="assets/css/sidebar_design.css" />
-    <link rel="stylesheet" href="assets/css/header_footer_design.css" />
-    <link rel="stylesheet" href="assets/css/dashboard_design.css" />
     <script src="assets/js/sidebar.js" defer></script>
+    <link rel="stylesheet" href="assets/css/dashboard_design.css" />
     <script src="assets/js/dashboard.js" defer></script>
+    <link rel="stylesheet" href="assets/css/header_footer_design.css" />
 
 </head>
 <style>
@@ -30,65 +31,10 @@
 </style>
 
 <body>
-    <div class="header">
-        <div class="header-left">
-            <div class="hamburger" id="hamburgerBtn">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <div class="logo-container">
-                <img src="assets/images/CreoSales-logo.png" alt="CREOTEC Logo" id="logoImg">
-            </div>
-            <div class="logo-text" style="font-weight: bold; color: #4729a6; font-size: 25px;">
-                <span class="logo-text-1">CREOSALES</span><br>
-            </div>
-        </div>
-    </div>
 
-    <div class="sidebar" id="sidebar">
-        <div class="profile">
-            <h4 style="font-weight:bold"><?php echo $currentUser->getFullName(); ?></h4>
-            <p style="font-size: small;"><?php echo $currentUser->department; ?></p>
-            <p style="font-size: small;"><?php echo $currentUser->position; ?></p>
-        </div>
-        <ul>
-            <li style="font-size: 18px; display: flex; align-items: center;">
-                <a href="evaluations.php"
-                    style="flex-grow: 1; display: flex; align-items: center; justify-content: space-between;">
-                    <div style="display: flex; align-items: center;">
-                        <i class="bi bi-people"></i>
-                        <span>Evaluations</span>
-                    </div>
-                    <span
-                        style="background-color: rgba(255, 255, 255, 0.1); color: #fff; font-size: 15px; font-weight: bold; padding: 3px 15px; border-radius: 5px;">
-                        <?php echo htmlspecialchars($currentUserType === 0 ? $totalClients : $userTotalEvaluatedCustomers); ?>
-                    </span>
-                </a>
-            </li>
-            <li style="font-size: 18px; display: flex; align-items: center;">
-                <a href="passedCustomers.php"
-                    style="flex-grow: 1; display: flex; align-items: center; justify-content: space-between;">
-                    <div style="display: flex; align-items: center;">
-                        <i class="bi bi-people"></i>
-                        <span>Passed Customers</span>
-                    </div>
-                    <span
-                        style="background-color: rgba(255, 255, 255, 0.1); color: #fff; font-size: 15px; font-weight: bold; padding: 3px 15px; border-radius: 5px;">
-                        <?php echo htmlspecialchars($currentUserType === 0 ? $evaluationResults['Passed'] : $evaluationResults['Passed']); ?>
-                    </span>
-                </a>
-            </li>
+    <?php require_once __DIR__ . '/partials/header.php'; ?>
 
-            <li style="font-size: 18px;">
-                <a href="#" id="logoutBtn">
-                    <i class="bi bi-box-arrow-right"></i> <span>Logout</span>
-                </a>
-            </li>
-        </ul>
-    </div>
-
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <?php require_once __DIR__ . '/partials/sidebar.php'; ?>
 
     <section class="main-content" id="mainContent">
         <div class="dashboard-container">
@@ -120,9 +66,9 @@
             </div>
         </div>
     </section>
-    <footer class="footer">
-        © 2025 Creosales | Creotec Philippines. All Rights Reserved.
-    </footer>
+
+    <?php require_once __DIR__ . '/partials/footer.php'; ?>
+
     <script>
     const evaluationResults = <?php echo $evaluationResults_json; ?>;
     </script>
