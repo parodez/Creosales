@@ -46,15 +46,16 @@
                 <div class="summary-details">
                     <div class="summary-item">
                         <h3>Number of Potential Customers</h3>
-                        <p style="color: #EDFF00;">School: <?php echo $clientsPerSector['School'] ?? 'N/A'; ?></p>
-                        <p style="color: #60FFA0">Government: <?php echo $clientsPerSector['Government'] ?? 'N/A'; ?>
+                        <p style="color: #EDFF00;">School: <?php echo $customersInSchool ?? 'N/A'; ?></p>
+                        <p style="color: #60FFA0">Government: <?php echo $customersInGovernment ?? 'N/A'; ?>
                         </p>
-                        <p style="color: #9F6BA0">Sponsor: <?php echo $clientsPerSector['Sponsor'] ?? 'N/A'; ?></p>
-                        <p style="color: #2274A5">Industry: <?php echo $clientsPerSector['Industry'] ?? 'N/A'; ?></p>
+                        <p style="color: #9F6BA0">Sponsor: <?php echo $customersInSponsor ?? 'N/A'; ?></p>
+                        <p style="color: #2274A5">Industry: <?php echo $customersInIndustry ?? 'N/A'; ?></p>
                     </div>
                     <div class="summary-item">
                         <h3>Average Client Result</h3>
-                        <p class="<?php echo strtolower($overallResult); ?>"><?php echo $overallResult; ?></p>
+                        <p class="<?php echo strtolower($averageCustomerEvaluation); ?>">
+                            <?php echo $averageCustomerEvaluation; ?></p>
                     </div>
                     <div class="summary-item">
                         <h3>Last Update</h3>
@@ -70,10 +71,12 @@
     <?php require_once __DIR__ . '/partials/footer.php'; ?>
 
     <script>
-    const evaluationResults = <?php echo $evaluationResults_json; ?>;
+    const passedCustomersCount = <?php echo json_encode($passedCustomersCount); ?>;
+    const conditionalCustomersCount = <?php echo json_encode($conditionalCustomersCount); ?>;
+    const failedCustomersCount = <?php echo json_encode($failedCustomersCount); ?>;
 
     // TODO REMOVE ONCE DONE DEBUGGING
-    const sessionData = <?php echo $sessionData; ?>
+    const sessionData = <?php echo $sessionData; ?>;
     </script>
 
 </body>

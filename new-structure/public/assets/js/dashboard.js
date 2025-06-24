@@ -14,9 +14,9 @@ if (ctxBar) {
             datasets: [{
                 label: 'Overall Evaluation Results',
                 data: [
-                    evaluationResults['Passed'] || 0,
-                    evaluationResults['Conditional'] || 0,
-                    evaluationResults['Failed'] || 0,
+                    passedCustomersCount || 0,
+                    conditionalCustomersCount || 0,
+                    failedCustomersCount || 0,
                 ],
                 backgroundColor: [
                     sectorColors["Passed"],
@@ -39,7 +39,7 @@ if (ctxBar) {
             scales: {
                 y: {
                     beginAtZero: true,
-                    max: Math.max(evaluationResults) + 2,
+                    max: Math.max([passedCustomersCount, conditionalCustomersCount, failedCustomersCount]) + 2,
                     grid: {
                         color: 'rgba(255, 255, 255, 0.1)'
                     },

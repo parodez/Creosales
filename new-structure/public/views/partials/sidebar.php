@@ -1,7 +1,13 @@
 <?php
-$totalCustomers = $customerFetcher->getTotalCustomers();
-$userTotalEvaluatedCustomers = $customerFetcher->getCustomersEvaluatedByUser($currentUser->id);
-$passedCustomersCount = $customerFetcher->getEvaluationResultCount('Passed');
+if (!isset($totalCustomers)) {
+    $totalCustomers = $customerFetcher->getTotalCustomers();
+}
+if (!isset($userTotalEvaluatedCustomers)) {
+    $userTotalEvaluatedCustomers = $customerFetcher->getCustomersEvaluatedByUser($currentUser->id);
+}
+if (!isset($passedCustomersCount)) {
+    $passedCustomersCount = $customerFetcher->getEvaluationResultCount('Passed');
+}
 ?>
 
 <div class="sidebar" id="sidebar">

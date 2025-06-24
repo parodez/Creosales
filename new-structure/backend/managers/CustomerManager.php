@@ -199,4 +199,57 @@ class CustomerManager
 
         return $resultCount;
     }
+    public function getCustomerInSectorCount(string $sector): int
+    {
+        $customerCount = 0;
+
+        foreach ($this->potentialCustomers as $potentialCustomer) {
+            if ($potentialCustomer->sector == $sector) {
+                $customerCount++;
+            }
+        }
+
+        return $customerCount;
+    }
+    public function getAverageCustomerEvaluation(): string
+    {
+        $passed = $this->getEvaluationResultCount('Passed');
+        $conditional = $this->getEvaluationResultCount('Conditional');
+        $failed = $this->getEvaluationResultCount('Failed');
+
+        if ($passed >= $conditional && $passed >= $failed) {
+            return 'Passed';
+        } else if ($conditional >= $passed && $conditional >= $failed) {
+            return 'Conditional';
+        } else {
+            return 'Failed';
+        }
+    }
+    public function getLatestEvaluation(): array
+    {
+        $latestEvaluation = [
+            'date' => '2000-01-01',
+            'user' => '',
+            'user_position' => ''
+        ];
+
+        foreach ($this->potentialCustomers as $potentialCustomer) {
+            if ($potentialCustomer->evaluation['date'] > $latestEvaluation['date']) {
+                $latestEvaluation = [
+                    'date' => $potentialCustomer->evaluation['date'],
+                    'user' => $potentialCustomer->user_id
+                ];
+            }
+        }
+
+        $stmt = $this->pdo->prepare("SELECT user_firstname, user_lastname, user_department, user_position FROM tbl_user WHERE user_id = ?");
+        $stmt->execute([$latestEvaluation['user']]);
+        $row = $stmt->fetch();
+        if ($row) {
+            $latestEvaluation['user'] = $row['user_firstname'] . " " . $row['user_lastname'];
+            $latestEvaluation['user_position'] = $row['user_position'];
+        }
+
+        return $latestEvaluation;
+    }
 }
