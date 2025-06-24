@@ -23,7 +23,11 @@
 
 <body>
 
-    <div class="header">
+    <?php require_once __DIR__ . '/partials/header.php'; ?>
+
+    <?php require_once __DIR__ . '/partials/sidebar.php'; ?>
+
+    <!-- <div class="header">
         <div class="header-left">
             <div class="hamburger" id="hamburgerBtn">
                 <span></span>
@@ -37,10 +41,10 @@
                 <span class="logo-text-1">CREOSALES</span><br>
             </div>
         </div>
-    </div>
+    </div> -->
 
 
-    <div class="sidebar" id="sidebar">
+    <!-- <div class="sidebar" id="sidebar">
         <div class="profile">
             <h4><?php echo htmlspecialchars($user['user_firstname'] . ' ' . $user['user_lastname']); ?></h4>
             <p><?php echo htmlspecialchars($user['user_department']); ?></p>
@@ -52,7 +56,7 @@
         </ul>
     </div>
 
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div> -->
 
     <div class="main-content">
         <h2 class="mb-4">Potential Customer Evaluation Results</h2>

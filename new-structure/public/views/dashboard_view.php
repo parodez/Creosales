@@ -71,6 +71,9 @@
 
     <script>
     const evaluationResults = <?php echo $evaluationResults_json; ?>;
+
+    // TODO REMOVE ONCE DONE DEBUGGING
+    const sessionData = <?php echo $sessionData; ?>
     </script>
 
 </body>

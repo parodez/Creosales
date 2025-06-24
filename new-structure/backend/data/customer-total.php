@@ -1,0 +1,3 @@
+<?php
+
+$totalCustomers = count($potentialCustomers);

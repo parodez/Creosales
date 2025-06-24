@@ -1,3 +1,0 @@
-<?php
-
-$totalClients = count($potentialCustomers);

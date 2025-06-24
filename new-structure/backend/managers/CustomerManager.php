@@ -5,6 +5,7 @@ require_once __DIR__ . '/../classes/Location.php';
 
 class CustomerManager
 {
+    public $potentialCustomers = [];
     public function __construct(
         private $pdo
     ) {}
@@ -12,7 +13,6 @@ class CustomerManager
     public function getAllCustomers()
     {
         $stmt = $this->pdo->query('SELECT potentialcustomer_id as pid, potentialcustomer_name as name, potentialcustomer_type as ptype, potentialcustomer_location as loc, potentialcustomer_facility as fac, potentialcustomer_tuition as tuition, sector_name as sec, user_id as user FROM tbl_potentialcustomer as pc LEFT JOIN tbl_sector as s ON pc.sector_id = s.sector_id');
-        $potentialCustomers = [];
 
         while ($row1 = $stmt->fetch()) {
             //* BASIC CUSTOMER DATA
@@ -137,7 +137,7 @@ class CustomerManager
             }
 
             //* INSERT ALL DATA INTO CUSTOMER OBJECT
-            $potentialCustomers[$potentialCustomer_id] = new PotentialCustomer(
+            $this->potentialCustomers[$potentialCustomer_id] = new PotentialCustomer(
                 $potentialCustomer_id,
                 $potentialCustomer_name,
                 $potentialCustomer_type,
@@ -156,10 +156,11 @@ class CustomerManager
             );
         }
 
-        return $potentialCustomers;
+        return $this->potentialCustomers;
     }
-    public function getPassedCustomers($potentialCustomers)
+    public function getPassedCustomers()
     {
+        $potentialCustomers = $this->potentialCustomers;
         $passedCustomers = [];
 
         foreach ($potentialCustomers as $potentialCustomer) {
@@ -168,5 +169,34 @@ class CustomerManager
             }
         }
         return $passedCustomers;
+    }
+    public function getTotalCustomers(): int
+    {
+        $totalCustomers = count($this->potentialCustomers);
+        return $totalCustomers;
+    }
+    public function getCustomersEvaluatedByUser(int $user_id): int
+    {
+        $userTotalEvaluatedCustomers = 0;
+
+        foreach ($this->potentialCustomers as $potentialCustomer) {
+            if ($potentialCustomer->user_id === $user_id) {
+                $userTotalEvaluatedCustomers++;
+            }
+        }
+
+        return $userTotalEvaluatedCustomers;
+    }
+    public function getEvaluationResultCount(string $evaluationResult): int
+    {
+        $resultCount = 0;
+
+        foreach ($this->potentialCustomers as $potentialCustomer) {
+            if ($potentialCustomer->evaluation['result'] == $evaluationResult) {
+                $resultCount++;
+            }
+        }
+
+        return $resultCount;
     }
 }

@@ -1,3 +1,9 @@
+<?php
+$totalCustomers = $customerFetcher->getTotalCustomers();
+$userTotalEvaluatedCustomers = $customerFetcher->getCustomersEvaluatedByUser($currentUser->id);
+$passedCustomersCount = $customerFetcher->getEvaluationResultCount('Passed');
+?>
+
 <div class="sidebar" id="sidebar">
     <div class="profile">
         <h4 style="font-weight:bold"><?php echo $currentUser->getFullName(); ?></h4>
@@ -14,7 +20,7 @@
                 </div>
                 <span
                     style="background-color: rgba(255, 255, 255, 0.1); color: #fff; font-size: 15px; font-weight: bold; padding: 3px 15px; border-radius: 5px;">
-                    <?php echo htmlspecialchars($currentUserType === 0 ? $totalClients : $userTotalEvaluatedCustomers); ?>
+                    <?php echo htmlspecialchars($currentUserType === 0 ? $totalCustomers : $userTotalEvaluatedCustomers); ?>
                 </span>
             </a>
         </li>
@@ -27,7 +33,7 @@
                 </div>
                 <span
                     style="background-color: rgba(255, 255, 255, 0.1); color: #fff; font-size: 15px; font-weight: bold; padding: 3px 15px; border-radius: 5px;">
-                    <?php echo htmlspecialchars($currentUserType === 0 ? $evaluationResults['Passed'] : $evaluationResults['Passed']); ?>
+                    <?php echo htmlspecialchars($passedCustomersCount); ?>
                 </span>
             </a>
         </li>
