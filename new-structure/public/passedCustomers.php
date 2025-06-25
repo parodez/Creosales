@@ -32,4 +32,3 @@ $passedCustomers = $dataManager->getPassedCustomers($potentialCustomers);
 // get_customer_service_info();
 
 include 'views/passedCustomers_view.php';
-?>

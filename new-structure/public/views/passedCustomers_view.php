@@ -23,21 +23,7 @@
 
 <body>
 
-    <div class="header">
-        <div class="header-left">
-            <div class="hamburger" id="hamburgerBtn">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <div class="logo-container">
-                <img src="assets/images/CreoSales-logo.png" alt="CREOTEC Logo" id="logoImg">
-            </div>
-            <div class="logo-text" style="font-weight: bold; color: #4729a6; font-size: 25px;">
-                <span class="logo-text-1">CREOSALES</span><br>
-            </div>
-        </div>
-    </div>
+    <?php require_once __DIR__ . '/partials/header.php' ?>
 
 
     <div class="sidebar" id="sidebar">
@@ -130,7 +116,7 @@
                                 </a>
                             </td>
                         </tr>
-                        <?php endforeach?>
+                        <?php endforeach ?>
                     </tbody>
                 </table>
             </div>
@@ -286,9 +272,8 @@
 
 
     </div>
-    <div class="footer">
-        © 2025 Creosales | Creotec Philippines. All Rights Reserved.
-    </div>
+
+    <?php require_once __DIR__ . '/partials/footer.php' ?>
 
     <script>
     <?php

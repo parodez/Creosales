@@ -31,7 +31,6 @@ $users = $cache->getOrSet('users', fn() => $userFetcher->getAllUsers(), 300);
 //* FETCH CUSTOMER DATA FROM CACHE OR FROM DB
 $customerFetcher = new CustomerManager($pdo);
 $customerFetcher->potentialCustomers = $cache->getOrSet('potentialCustomers', fn() => $customerFetcher->getAllCustomers(), 300);
-// $potentialCustomers = $customerFetcher->potentialCustomers;
 
 //* GET CURRENT USER DATA FROM CACHE
 $currentUser = $users[$currentUser_id];
