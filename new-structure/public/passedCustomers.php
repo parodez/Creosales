@@ -18,13 +18,18 @@ if (!isset($_SESSION['user_id'])) { // Corrected to check $_SESSION['user_id']
     die("Error: User ID not found in session. Session data: " . print_r($_SESSION, true));
 }
 
+$cache = new CacheManager();
+
+$userFetcher = new UserManager($pdo);
+$users = $cache->getOrSet('users', fn() => $userFetcher->getAllUsers(), 300);
+
 $user = $_SESSION['user'];
-$user_id = $_SESSION['user_id']; // Corrected to use $_SESSION['user_id']
+$currentUser_id = $_SESSION['user_id']; // Corrected to use $_SESSION['user_id']
 $user_type = $_SESSION['user_type'];
 
-$dataManager = new CustomerManager($pdo);
-$potentialCustomers = $dataManager->getAllCustomers();
-$passedCustomers = $dataManager->getPassedCustomers($potentialCustomers);
+$customerFetcher = new CustomerManager($pdo);
+$potentialCustomers = $customerFetcher->getAllCustomers();
+$passedCustomers = $customerFetcher->getPassedCustomers();
 
 // get_customer_basic_info();
 // get_customer_contact_info();

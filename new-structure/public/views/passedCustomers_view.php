@@ -25,26 +25,13 @@
 
     <?php require_once __DIR__ . '/partials/header.php' ?>
 
-
-    <div class="sidebar" id="sidebar">
-        <div class="profile">
-            <h4><?php echo htmlspecialchars($user['user_firstname'] . ' ' . $user['user_lastname']); ?></h4>
-            <p><?php echo htmlspecialchars($user['user_department']); ?></p>
-            <p><?php echo htmlspecialchars($user['user_position']); ?></p>
-        </div>
-        <ul>
-            <li><a href="dashboard/dashboard.php"><i class="bi bi-house"></i> <span>Dashboard</span></a></li>
-            <li><a href="#" id="logoutBtn"><i class="bi bi-box-arrow-right"></i> <span>Logout</span></a></li>
-        </ul>
-    </div>
-
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <?php require_once __DIR__ . '/partials/sidebar.php' ?>
 
     <div class="main-content">
         <h2 class="mb-4">Passed Customers Dashboard</h2>
 
         <!-- Filter Container -->
-        <div class="filter-container">
+        <!-- <div class="filter-container">
             <div class="filter-row">
                 <div class="filter-group search-box">
                     <label class="filter-label">Search</label>
@@ -87,7 +74,7 @@
                     </select>
                 </div>
             </div>
-        </div>
+        </div> -->
 
         <!-- Table Container -->
         <div class="table-container">
