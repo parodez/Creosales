@@ -252,4 +252,63 @@ class CustomerManager
 
         return $latestEvaluation;
     }
+    public function getImageData(int $id): array
+    {
+        $stmt = $this->pdo->prepare("SELECT images_name, images_path, images_date
+        FROM tbl_images
+        WHERE evaluation_id 
+        IN (
+            SELECT evaluation_id
+            FROM tbl_evaluation
+            WHERE potentialcustomer_id = ?
+        )");
+        $stmt->execute([$id]);
+
+        $images = [];
+
+        while ($row = $stmt->fetch()) {
+            $images[] = $row;
+        }
+
+        return $images;
+    }
+    public function getCustomerEvalSummary(int $id): array
+    {
+        $evalSummary = [];
+
+        $stmt = $this->pdo->prepare("SELECT evaluation_id, evaluation_rating, evaluation_result, evaluation_date 
+                    FROM tbl_evaluation 
+                    WHERE potentialcustomer_id = ? 
+                    ORDER BY evaluation_date DESC 
+                    LIMIT 1");
+
+        $stmt->execute([$id]);
+        $evalSummary = $stmt->fetch();
+
+        return $evalSummary;
+    }
+    public function getCustomerEvaluation(int $id): array
+    {
+        $evaluation = [];
+
+        $stmt = $this->pdo->prepare("SELECT cr.criteria_criterion,
+                          r.rating_id,
+                          r.rating_score, 
+                          e.evaluation_rating, 
+                          e.evaluation_result, 
+                          e.evaluation_date, 
+                          r.rating_notes 
+                   FROM tbl_evaluation e
+                   INNER JOIN tbl_rating r ON e.evaluation_id = r.evaluation_id
+                   INNER JOIN tbl_criteria cr ON r.criteria_id = cr.criteria_id
+                   WHERE e.potentialcustomer_id = ?
+                   ORDER BY cr.criteria_id ASC");
+        $stmt->execute([$id]);
+        while ($row = $stmt->fetch()) {
+            $row['rating_score'] = number_format((float)$row['rating_score'], 1, '.', '');
+            $evaluation[] = $row;
+        }
+
+        return $evaluation;
+    }
 }

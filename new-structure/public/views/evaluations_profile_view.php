@@ -23,7 +23,11 @@
 </head>
 
 <body>
-    <div class="header">
+
+    <?php require_once __DIR__ . '/partials/header.php' ?>
+    <?php require_once __DIR__ . '/partials/sidebar.php' ?>
+
+    <!-- <div class="header">
         <div class="header-left">
             <div class="hamburger" id="hamburgerBtn">
                 <span></span>
@@ -37,9 +41,9 @@
                 <span class="logo-text-1">CREOSALES</span><br>
             </div>
         </div>
-    </div>
+    </div> -->
 
-    <div class="sidebar" id="sidebar">
+    <!-- <div class="sidebar" id="sidebar">
         <div class="profile">
             <h4 style="font-weight:bold">
                 <?php echo htmlspecialchars($user['user_firstname'] . ' ' . $user['user_lastname']); ?></h4>
@@ -68,7 +72,7 @@
         </ul>
     </div>
 
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div> -->
 
     <div class="main-content">
         <div class="content-container">
@@ -424,8 +428,8 @@
     </div>
     <script>
     const clientId = <?php echo $potentialCustomer->id ?>;
-    const evalSummary = <?php echo json_encode($eval_summary); ?>;
-    const imagesData = <?php echo json_encode($images); ?>;
+    const imagesData = <?php echo json_encode($imagesData) ?>;
+    const evalSummary = <?php echo json_encode($eval_summary) ?>;
     </script>
 </body>
 

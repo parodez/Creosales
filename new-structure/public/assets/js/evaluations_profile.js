@@ -246,6 +246,7 @@ function closeMoreDetailsModal() {
 
         // Function to update evaluation summary
         function updateEvaluationSummary() {
+            // const evalSummary = <?php echo json_encode($eval_summary); ?>;
             if (evalSummary) {
                 // Update rating - use the select element
                 const ratingSelect = document.getElementById('ratingSelect');
