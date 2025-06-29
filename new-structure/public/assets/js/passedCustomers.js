@@ -45,9 +45,9 @@ function debounce(func, delay) {
 }
 
 // Event listener for search input (real-time search with debounce)
-document.getElementById('searchInput').addEventListener('input', debounce(function() {
-    applyFilters();
-}, 500));
+// document.getElementById('searchInput').addEventListener('input', debounce(function() {
+//     applyFilters();
+// }, 500));
 
 // Function to update URL parameters
 function updateUrlParams(key, value) {
@@ -61,11 +61,11 @@ function updateUrlParams(key, value) {
 }
 
 // Event listener for search input (press Enter key)
-document.getElementById('searchInput').addEventListener('keyup', function(event) {
-    if (event.key === 'Enter') {
-        applyFilters();
-    }
-});
+// document.getElementById('searchInput').addEventListener('keyup', function(event) {
+//     if (event.key === 'Enter') {
+//         applyFilters();
+//     }
+// });
 
 // Add event listener for export button for admin
 const exportAllClientsBtn = document.getElementById('exportAllClientsBtn');

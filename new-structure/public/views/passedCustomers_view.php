@@ -30,52 +30,6 @@
     <div class="main-content">
         <h2 class="mb-4">Passed Customers Dashboard</h2>
 
-        <!-- Filter Container -->
-        <!-- <div class="filter-container">
-            <div class="filter-row">
-                <div class="filter-group search-box">
-                    <label class="filter-label">Search</label>
-                    <div class="input-group">
-                        <input type="text" id="searchInput" class="form-control" placeholder="Search clients..."
-                            value="<?php echo $searchTerm; ?>">
-                    </div>
-                </div>
-                <?php if ($user_type == 0): ?>
-                <div class="filter-group">
-                    <label class="filter-label">Evaluated by</label>
-                    <select id="adminFilter" class="form-select" onchange="applyFilters()">
-                        <option value="">All Users Evaluated</option>
-                        <?php foreach ($users as $user): ?>
-                        <option value="<?php echo $user['user_id']; ?>"
-                            <?php echo ($adminFilter == $user['user_id']) ? 'selected' : ''; ?>>
-                            <?php echo $user['full_name']; ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                <?php endif; ?>
-                <div class="filter-group">
-                    <label class="filter-label">Sector</label>
-                    <select id="sectorFilter" class="form-select" onchange="applyFilters()">
-                        <option value="">All Sectors</option>
-                        <?php foreach ($sectors as $sector): ?>
-                        <option value="<?php echo $sector; ?>"
-                            <?php echo ($sectorFilter == $sector) ? 'selected' : ''; ?>><?php echo $sector; ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-                <div class="filter-group">
-                    <label class="filter-label">Performance Review</label>
-                    <select id="reviewFilter" class="form-select" onchange="applyFilters()">
-                        <option value="">All Reviews</option>
-                        <?php foreach ($reviews as $review): ?>
-                        <option value="<?php echo $review; ?>"
-                            <?php echo ($reviewFilter == $review) ? 'selected' : ''; ?>><?php echo $review; ?></option>
-                        <?php endforeach; ?>
-                    </select>
-                </div>
-            </div>
-        </div> -->
-
         <!-- Table Container -->
         <div class="table-container">
             <div class="table-responsive">
@@ -193,11 +147,11 @@
 
         <!-- Pagination -->
         <div class="pagination-container">
-            <div class="page-info">
+            <!-- <div class="page-info">
                 Showing <?php echo ($totalRecords > 0) ? min($offset + 1, $totalRecords) : 0; ?> to
                 <?php echo ($totalRecords > 0) ? min($offset + $recordsPerPage, $totalRecords) : 0; ?> of
                 <?php echo $totalRecords; ?> entries
-            </div>
+            </div> -->
 
             <?php if ($user_type == 0): ?>
             <a class="export" href="#" id="exportAllClientsBtn"><i class="bi bi-clipboard-data"></i> <span>Export all
@@ -212,23 +166,22 @@
                 Export All Evaluated Clients
             </button> -->
 
-            <nav aria-label="Page navigation" class="pagination-box">
+            <!-- <nav aria-label="Page navigation" class="pagination-box">
                 <ul class="pagination">
-                    <!-- First Page -->
+
                     <li class="page-item <?php echo ($page <= 1) ? 'disabled' : ''; ?>">
                         <a class="page-link" href="<?php echo getPageUrl(1); ?>" aria-label="First">
                             <span aria-hidden="true">&laquo;&laquo;</span>
                         </a>
                     </li>
 
-                    <!-- Previous Page -->
+                
                     <li class="page-item <?php echo ($page <= 1) ? 'disabled' : ''; ?>">
                         <a class="page-link" href="<?php echo getPageUrl(max(1, $page - 1)); ?>" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
                         </a>
                     </li>
 
-                    <!-- Page Numbers -->
                     <?php
                     $startPage = max(1, $page - 2);
                     $endPage = min($startPage + 4, $totalPages);
@@ -239,7 +192,6 @@
                     </li>
                     <?php endfor; ?>
 
-                    <!-- Next Page -->
                     <li class="page-item <?php echo ($page >= $totalPages) ? 'disabled' : ''; ?>">
                         <a class="page-link" href="<?php echo getPageUrl(min($totalPages, $page + 1)); ?>"
                             aria-label="Next">
@@ -247,14 +199,14 @@
                         </a>
                     </li>
 
-                    <!-- Last Page -->
+
                     <li class="page-item <?php echo ($page >= $totalPages) ? 'disabled' : ''; ?>">
                         <a class="page-link" href="<?php echo getPageUrl($totalPages); ?>" aria-label="Last">
                             <span aria-hidden="true">&raquo;&raquo;</span>
                         </a>
                     </li>
                 </ul>
-            </nav>
+            </nav> -->
         </div>
 
 

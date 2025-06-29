@@ -2,7 +2,7 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-include ('connection.php');
+include('connection.php');
 
 if (!isset($_SESSION['user'])) {
     die("Error: User session not found. Session data: " . print_r($_SESSION, true));
@@ -283,7 +283,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET' && isset($_GET['action']) && $_GET['act
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
     if ($_POST['action'] === 'update_contactperson') {
         $contactperson_id = isset($_POST['contactperson_id']) ? intval($_POST['contactperson_id']) : 0;
-        
+
         if ($contactperson_id <= 0) {
             echo json_encode(['status' => 'error', 'message' => 'Invalid contact person ID.']);
             exit();
@@ -308,7 +308,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
             exit();
         }
 
-        $update_query->bind_param("ssssi", 
+        $update_query->bind_param(
+            "ssssi",
             $contactperson_name,
             $contactperson_position,
             $contactperson_email,
@@ -386,7 +387,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 //     JOIN tbl_facility f ON ef.facility_id = f.facility_id
 //     GROUP BY ef.potentialcustomer_id
 // )
-    
+
 // SELECT
 // pc.potentialcustomer_id,
 // pc.potentialcustomer_name,
@@ -435,5 +436,3 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action'])) {
 // PASSED END
 
 $potentialCustomers = [];
-
-?>

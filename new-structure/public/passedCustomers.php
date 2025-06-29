@@ -3,7 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start(); // Start session only if not already started
 }
 
-include('../backend/fetch_data_creosales.php'); // Ensure this is included
+// include('../backend/fetch_data_creosales.php'); 
 require_once __DIR__ . '/../backend/connection.php';
 require_once __DIR__ . '/../backend/managers/CacheManager.php';
 require_once __DIR__ . '/../backend/managers/CustomerManager.php';
@@ -23,12 +23,12 @@ $cache = new CacheManager();
 $userFetcher = new UserManager($pdo);
 $users = $cache->getOrSet('users', fn() => $userFetcher->getAllUsers(), 300);
 
-$user = $_SESSION['user'];
 $currentUser_id = $_SESSION['user_id']; // Corrected to use $_SESSION['user_id']
 $user_type = $_SESSION['user_type'];
 
 $customerFetcher = new CustomerManager($pdo);
-$potentialCustomers = $customerFetcher->getAllCustomers();
+$customerFetcher->potentialCustomers = $cache->getOrSet('potentialCustomers', fn() => $customerFetcher->getAllCustomers(), 300);
+$potentialCustomers = $customerFetcher->potentialCustomers;
 $passedCustomers = $customerFetcher->getPassedCustomers();
 
 // get_customer_basic_info();
