@@ -10,12 +10,12 @@ class ProductManager
         private CacheManager $cache
     ) {}
 
-    public function getProduct($cacheKey, $table): array
+    public function getByType($cacheKey): array
     {
         $cached = $this->cache->get($cacheKey);
         if ($cached != false) return $cached;
 
-        $stmt = $this->pdo->query('SELECT * FROM ' . $table);
+        $stmt = $this->pdo->query('SELECT * FROM tbl_' . $cacheKey);
         $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         $this->cache->set($cacheKey, $data, 300);
