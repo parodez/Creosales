@@ -11,7 +11,7 @@ $message = 'Data Successfully Retrieved';
 
 try {
     $productManager = new ProductManager($pdo, new CacheManager());
-    $data = $productManager->getProduct('robots', 'tbl_robots');
+    $data = $productManager->getByType('robots');
 } catch (Exception $e) {
     $success = false;
     $message = 'Error occurred: ' . $e;
