@@ -1,0 +1,45 @@
+<?php
+require_once __DIR__ . '/CacheManager.php';
+
+class ProductManager
+{
+    // private PDO $pdo;
+
+    public function __construct(
+        private PDO $pdo,
+        private CacheManager $cache
+    ) {}
+
+    public function getProduct($cacheKey, $table): array
+    {
+        $cached = $this->cache->get($cacheKey);
+        if ($cached != false) return $cached;
+
+        $stmt = $this->pdo->query('SELECT * FROM ' . $table);
+        $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+        $this->cache->set($cacheKey, $data, 300);
+        return $data;
+    }
+
+    // public function getRobots(): array
+    // {
+    //     $cacheKey = 'robots';
+
+    //     $cached = $this->cache->get($cacheKey);
+    //     if ($cached != false) return $cached;
+
+    //     $stmt = $this->pdo->query('SELECT * FROM tbl_robots');
+    //     $robots = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+    //     $this->cache->set($cacheKey, $robots, 300);
+    //     return $robots;
+    // }
+    // public function getServices(): array
+    // {
+    //     $cacheKey = 'services';
+
+    //     $cached = $this->cache->get($cacheKey);
+    //     if ($cached != false) return $cached;
+    // }
+}
