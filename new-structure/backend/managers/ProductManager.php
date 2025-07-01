@@ -36,7 +36,7 @@ class ProductManager
                 $stmt = $this->pdo->prepare('DELETE FROM tbl_' . $product . ' WHERE ' . $product . '_id=?');
                 $stmt->execute([$id]);
                 $updateResult = $this->updateCache($product);
-                if (!$updateResult['success']) throw new Exception('Product Deleted. Cache Update Unsuccessful');
+                if (!$updateResult['success']) throw new Exception('Product Deleted. Cache Update Unsuccessful: ' . $updateResult['message']);
             }
         } catch (Exception $e) {
             $success = false;
@@ -69,7 +69,7 @@ class ProductManager
             $stmt = $this->pdo->prepare('INSERT INTO tbl_robots (robots_item, robots_description, robots_cost, robots_srp) VALUES (?, ?, ?, ?)');
             $stmt->execute([$item, $desc, $cost, $srp]);
             $updateResult = $this->updateCache('robots');
-            if (!$updateResult['success']) throw new Exception('Robot Deleted. Cache Update Unsuccessful');
+            if (!$updateResult['success']) throw new Exception('Robot Added. Cache Update Unsuccessful: ' . $updateResult['message']);
         } catch (Exception $e) {
             $success = false;
             $message = 'Error occurred: ' . $e;
@@ -86,7 +86,7 @@ class ProductManager
             $stmt = $this->pdo->prepare('INSERT INTO tbl_services (services_type, services_cost) VALUES (?, ?)');
             $stmt->execute([$type, $cost]);
             $updateResult = $this->updateCache('services');
-            if (!$updateResult['success']) throw new Exception('Service Deleted. Cache Update Unsuccessful');
+            if (!$updateResult['success']) throw new Exception('Service Added. Cache Update Unsuccessful: '  . $updateResult['message']);
         } catch (Exception $e) {
             $success = false;
             $message = 'Error occurred: ' . $e;
