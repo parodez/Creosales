@@ -68,6 +68,8 @@ class ProductManager
         try {
             $stmt = $this->pdo->prepare('INSERT INTO tbl_robots (robots_item, robots_description, robots_cost, robots_srp) VALUES (?, ?, ?, ?)');
             $stmt->execute([$item, $desc, $cost, $srp]);
+            $updateResult = $this->updateCache('robots');
+            if (!$updateResult['success']) throw new Exception('Robot Deleted. Cache Update Unsuccessful');
         } catch (Exception $e) {
             $success = false;
             $message = 'Error occurred: ' . $e;
