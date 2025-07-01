@@ -85,6 +85,8 @@ class ProductManager
         try {
             $stmt = $this->pdo->prepare('INSERT INTO tbl_services (services_type, services_cost) VALUES (?, ?)');
             $stmt->execute([$type, $cost]);
+            $updateResult = $this->updateCache('services');
+            if (!$updateResult['success']) throw new Exception('Service Deleted. Cache Update Unsuccessful');
         } catch (Exception $e) {
             $success = false;
             $message = 'Error occurred: ' . $e;
@@ -92,24 +94,4 @@ class ProductManager
 
         return ['success' => $success, 'message' => $message];
     }
-    // public function getRobots(): array
-    // {
-    //     $cacheKey = 'robots';
-
-    //     $cached = $this->cache->get($cacheKey);
-    //     if ($cached != false) return $cached;
-
-    //     $stmt = $this->pdo->query('SELECT * FROM tbl_robots');
-    //     $robots = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-    //     $this->cache->set($cacheKey, $robots, 300);
-    //     return $robots;
-    // }
-    // public function getServices(): array
-    // {
-    //     $cacheKey = 'services';
-
-    //     $cached = $this->cache->get($cacheKey);
-    //     if ($cached != false) return $cached;
-    // }
 }
