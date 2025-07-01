@@ -7,7 +7,7 @@ require_once __DIR__ . '/../managers/CacheManager.php';
 require_once __DIR__ . '/../managers/ProductManager.php';
 
 $success = true;
-$message = 'Robot Successfully Added';
+$message = 'Service Successfully Added';
 
 if (!isset($_POST['services_type'], $_POST['services_cost'])) {
     $success = false;
