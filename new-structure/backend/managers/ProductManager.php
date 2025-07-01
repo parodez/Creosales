@@ -21,6 +21,45 @@ class ProductManager
         $this->cache->set($cacheKey, $data, 300);
         return $data;
     }
+    public function deleteByTypeAndId(string $product, int $id): array
+    {
+        $success = true;
+        $message = 'Product Successfully Deleted';
+
+        try {
+            $stmt = $this->pdo->prepare('SELECT COUNT(*) FROM tbl_' . $product . ' WHERE ' . $product . '_id=?');
+            $stmt->execute([$id]);
+            $count = $stmt->fetchColumn();
+
+            if ($count > 0) throw new Exception('Product does not exist');
+            else {
+                $stmt = $this->pdo->prepare('DELETE FROM tbl_' . $product . ' WHERE ' . $product . '_id=?');
+                $stmt->execute([$id]);
+                $updateResult = $this->updateCache($product);
+                if (!$updateResult['success']) throw new Exception('Product Deleted. Cache Update Unsuccessful');
+            }
+        } catch (Exception $e) {
+            $success = false;
+            $message = 'Error occurred' . $e;
+        }
+        return ['success' => $success, 'message' => $message];
+    }
+    public function updateCache(string $cacheKey): array
+    {
+        $success = false;
+        $message = 'Cache Successfully Update';
+
+        try {
+            $stmt = $this->pdo->query('SELECT * FROM tbl_' . $cacheKey);
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $this->cache->set($cacheKey, $data, 300);
+        } catch (Exception $e) {
+            $success = false;
+            $message = 'Error occurred: ' . $e;
+        }
+        return ['success' => $success, 'message' => $message];
+    }
     public function addRobot(string $item, string $desc, float $cost, float $srp): array
     {
         $success = true;
