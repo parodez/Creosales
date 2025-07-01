@@ -21,7 +21,21 @@ class ProductManager
         $this->cache->set($cacheKey, $data, 300);
         return $data;
     }
+    public function addRobot(string $item, string $desc, float $cost, float $srp): array
+    {
+        $success = true;
+        $message = 'Robot Successfully Added';
 
+        try {
+            $stmt = $this->pdo->prepare('INSERT INTO tbl_robots (robots_item, robots_description, robots_cost, robots_srp) VALUES (?, ?, ?, ?)');
+            $stmt->execute([$item, $desc, $cost, $srp]);
+        } catch (Exception $e) {
+            $success = false;
+            $message = 'Error occurred: ' . $e;
+        }
+
+        return ['success' => $success, 'message' => $message];
+    }
     // public function getRobots(): array
     // {
     //     $cacheKey = 'robots';
