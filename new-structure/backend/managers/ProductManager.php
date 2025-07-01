@@ -36,6 +36,21 @@ class ProductManager
 
         return ['success' => $success, 'message' => $message];
     }
+    public function addService(string $type, float $cost)
+    {
+        $success = true;
+        $message = 'Service Successfully Added';
+
+        try {
+            $stmt = $this->pdo->prepare('INSERT INTO tbl_services (services_type, services_cost) VALUES (?, ?)');
+            $stmt->execute([$type, $cost]);
+        } catch (Exception $e) {
+            $success = false;
+            $message = 'Error occurred: ' . $e;
+        }
+
+        return ['success' => $success, 'message' => $message];
+    }
     // public function getRobots(): array
     // {
     //     $cacheKey = 'robots';
