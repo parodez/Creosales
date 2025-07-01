@@ -40,23 +40,7 @@ class ProductManager
             }
         } catch (Exception $e) {
             $success = false;
-            $message = 'Error occurred' . $e;
-        }
-        return ['success' => $success, 'message' => $message];
-    }
-    public function updateCache(string $cacheKey): array
-    {
-        $success = false;
-        $message = 'Cache Successfully Update';
-
-        try {
-            $stmt = $this->pdo->query('SELECT * FROM tbl_' . $cacheKey);
-            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-
-            $this->cache->set($cacheKey, $data, 300);
-        } catch (Exception $e) {
-            $success = false;
-            $message = 'Error occurred: ' . $e;
+            $message = $e;
         }
         return ['success' => $success, 'message' => $message];
     }
@@ -72,7 +56,7 @@ class ProductManager
             if (!$updateResult['success']) throw new Exception('Robot Added. Cache Update Unsuccessful: ' . $updateResult['message']);
         } catch (Exception $e) {
             $success = false;
-            $message = 'Error occurred: ' . $e;
+            $message = $e;
         }
 
         return ['success' => $success, 'message' => $message];
@@ -89,9 +73,25 @@ class ProductManager
             if (!$updateResult['success']) throw new Exception('Service Added. Cache Update Unsuccessful: '  . $updateResult['message']);
         } catch (Exception $e) {
             $success = false;
-            $message = 'Error occurred: ' . $e;
+            $message = $e;
         }
 
+        return ['success' => $success, 'message' => $message];
+    }
+    public function updateCache(string $cacheKey): array
+    {
+        $success = true;
+        $message = 'Cache Successfully Updated';
+
+        try {
+            $stmt = $this->pdo->query('SELECT * FROM tbl_' . $cacheKey);
+            $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            $this->cache->set($cacheKey, $data, 300);
+        } catch (Exception $e) {
+            $success = false;
+            $message = $e;
+        }
         return ['success' => $success, 'message' => $message];
     }
 }
