@@ -17,7 +17,7 @@ if (!isset($_POST['robots_item'], $_POST['robots_desc'], $_POST['robots_cost'], 
     $data = $productManager->addRobot($_POST['robots_item'], $_POST['robots_desc'], $_POST['robots_cost'], $_POST['robots_srp']);
     if (!$data['success']) {
         $success = false;
-        $message = 'Error occurred: ' . $e;
+        $message = 'Error occurred: ' . $data['message'];
     }
 }
 

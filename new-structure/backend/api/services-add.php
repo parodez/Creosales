@@ -17,7 +17,7 @@ if (!isset($_POST['services_type'], $_POST['services_cost'])) {
     $data = $productManager->addService($_POST['services_type'], $_POST['services_cost']);
     if (!$data['success']) {
         $success = false;
-        $message = 'Error occurred: ' . $e;
+        $message = 'Error occurred: ' . $data['message'];
     }
 }
 

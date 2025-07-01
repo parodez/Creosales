@@ -14,7 +14,7 @@ try {
     $data = $productManager->getByType('services');
 } catch (Exception $e) {
     $success = false;
-    $message = 'Encountered an error: ' . $e;
+    $message = 'Encountered an error: ' . $data['message'];
 }
 
 echo json_encode(['status' => $success, 'message' => $message, 'data' => $data]);
