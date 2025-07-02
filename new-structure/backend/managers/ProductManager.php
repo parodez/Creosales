@@ -113,7 +113,7 @@ class ProductManager
             $count = $stmt->fetchColumn();
             if ($count < 1) throw new Exception('Service does not exist');
             else {
-                $stmt = $this->pdo->prepare('UPDATE tbl_servies SET services_type=?, services_cost=? WHERE services_id=?');
+                $stmt = $this->pdo->prepare('UPDATE tbl_services SET services_type=?, services_cost=? WHERE services_id=?');
                 $stmt->execute([$type, $cost, $id]);
                 $data = $this->updateCache('services');
                 if (!$data['success']) throw new Exception($data['message']);
