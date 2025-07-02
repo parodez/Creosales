@@ -20,5 +20,4 @@ if (!isset($_POST['services_type'], $_POST['services_cost'])) {
         $message = 'Error occurred: ' . $data['message'];
     }
 }
-
 echo json_encode(['success' => $success, 'message' => $message]);
