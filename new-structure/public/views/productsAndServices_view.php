@@ -127,12 +127,12 @@
                         <tr data-id="<?= $product['products_id']; ?>" data-item="<?= $product['products_item']; ?>"
                             data-description="<?= $product['products_description']; ?>"
                             data-cost="<?= $product['products_cost']; ?>" data-srp="<?= $product['products_srp']; ?>"
-                            data-service="<?= $product['services_id'] ?>">
+                            data-service="<?= $product['services_type'] ?>">
                             <th scope="row"><?= htmlspecialchars($product['products_item']); ?></th>
                             <td><?= htmlspecialchars($product['products_description']); ?></td>
                             <td><?= htmlspecialchars($product['products_cost']); ?></td>
                             <td><?= htmlspecialchars($product['products_srp']); ?></td>
-                            <td><?= htmlspecialchars($product['services_id']); ?></td>
+                            <td><?= htmlspecialchars($product['services_type']); ?></td>
                             <td>
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#editModal" class="edit-btn">
                                     Edit</a>
@@ -143,7 +143,7 @@
                     </tbody>
                 </table>
             </div>
-            <a href="#" data-bs-toggle="modal" data-bs-target="#editModal">Add Product</a>
+            <a href="#" data-bs-toggle="modal" data-bs-target="#addModal">Add Product</a>
         </div>
     </div>
 
@@ -178,8 +178,14 @@
                             <input type="number" class="form-control" id="products_srp" name="products_srp" required>
                         </div>
                         <div class="mb-3">
-                            <label for="services_id" class="form-label">Service</label>
-                            <input type="text" class="form-control" id="services_id" name="services_id" required>
+                            <label for="services_type" class="form-label">Service</label>
+                            <select class="form-control" id="services_type" name="services_type" required>
+                                <?php foreach ($services as $service): ?>
+                                <option value="<?= $service['services_type']; ?>">
+                                    <?= htmlspecialchars($service['services_type']); ?>
+                                </option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
                     </div>
 
@@ -197,20 +203,39 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="popupFormLabel">Register</h5>
+                    <h5 class="modal-title" id="popupFormLabel">Add Product</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
 
                 <form id="addForm">
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label for="products_name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="products_name" name="products_name" required>
+                            <label for="products_item" class="form-label">Name</label>
+                            <input type="text" class="form-control" id="products_item" name="products_item" required>
                         </div>
-
                         <div class="mb-3">
-                            <label for="description" class="form-label">Description</label>
-                            <input type="text" class="form-control" id="description" name="description" required>
+                            <label for="products_description" class="form-label">Description</label>
+                            <input type="text" class="form-control" id="products_description"
+                                name="products_description" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="products_cost" class="form-label">Cost</label>
+                            <input type="number" class="form-control" id="products_cost" name="products_cost" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="products_srp" class="form-label">SRP</label>
+                            <input type="number" class="form-control" id="products_srp" name="products_srp" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="services_type" class="form-label">Service</label>
+                            <select class="form-control" id="services_type" name="services_type" required>
+                                <option value="" disabled selected>Select a service</option>
+                                <?php foreach ($services as $service): ?>
+                                <option value="<?= $service['services_type']; ?>">
+                                    <?= htmlspecialchars($service['services_type']); ?>
+                                </option>
+                                <?php endforeach; ?>
+                            </select>
                         </div>
                     </div>
 
@@ -276,7 +301,7 @@
             document.getElementById('products_description').value = row.dataset.description;
             document.getElementById('products_cost').value = row.dataset.cost;
             document.getElementById('products_srp').value = row.dataset.srp;
-            document.getElementById('services_id').value = row.dataset.service;
+            document.getElementById('services_type').value = row.dataset.service;
         });
     });
 
