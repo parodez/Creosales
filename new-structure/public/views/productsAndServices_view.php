@@ -124,10 +124,10 @@
                     </thead>
                     <tbody>
                         <?php foreach ($products as $product): ?>
-                        <tr data-id=<?= $product['products_id']; ?> data-item=<?= $product['products_item']; ?>
-                            data-description=<?= $product['products_description']; ?>
-                            data-cost=<?= $product['products_cost']; ?> data-srp=<?= $product['products_srp']; ?>
-                            data-service=<?= $product['services_id']; ?>>
+                        <tr data-id="<?= $product['products_id']; ?>" data-item="<?= $product['products_item']; ?>"
+                            data-description="<?= $product['products_description']; ?>"
+                            data-cost="<?= $product['products_cost']; ?>" data-srp="<?= $product['products_srp']; ?>"
+                            data-service="<?= $product['services_id'] ?>">
                             <th scope="row"><?= htmlspecialchars($product['products_item']); ?></th>
                             <td><?= htmlspecialchars($product['products_description']); ?></td>
                             <td><?= htmlspecialchars($product['products_cost']); ?></td>
@@ -174,8 +174,12 @@
                             <input type="number" class="form-control" id="products_cost" name="products_cost" required>
                         </div>
                         <div class="mb-3">
-                            <label for="products_srp" class="form-label">Service</label>
-                            <input type="text" class="form-control" id="products_srp" name="products_srp" required>
+                            <label for="products_srp" class="form-label">SRP</label>
+                            <input type="number" class="form-control" id="products_srp" name="products_srp" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="services_id" class="form-label">Service</label>
+                            <input type="text" class="form-control" id="services_id" name="services_id" required>
                         </div>
                     </div>
 
@@ -272,7 +276,7 @@
             document.getElementById('products_description').value = row.dataset.description;
             document.getElementById('products_cost').value = row.dataset.cost;
             document.getElementById('products_srp').value = row.dataset.srp;
-            document.getElementById('products_service').value = row.dataset.service;
+            document.getElementById('services_id').value = row.dataset.service;
         });
     });
 
