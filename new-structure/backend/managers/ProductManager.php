@@ -19,7 +19,7 @@ class ProductManager
             $stmt = $this->pdo->query('SELECT COUNT(*) FROM tbl_products');
             if ($stmt->fetchColumn() < 1) throw new Exception('No Products Found');
 
-            $stmt = $this->pdo->query('SELECT * FROM tbl_products');
+            $stmt = $this->pdo->query('SELECT products_id, products_item, products_description, products_cost, products_srp, services_type FROM tbl_products LEFT JOIN tbl_services ON tbl_products.services_id = tbl_services.services_id');
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
             $success = false;
