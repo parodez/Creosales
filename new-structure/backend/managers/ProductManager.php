@@ -80,20 +80,20 @@ class ProductManager
         $message = 'Product Edited Successfully';
 
         try {
-            if (!isset($data['id'])) throw new Exception('Missing Field');
+            if (!isset($data['products_id'])) throw new Exception('Missing Field');
 
             $keys = [];
             $values = [];
             foreach ($data as $key => $value) {
-                if ($key != 'id') $keys[] = "$key =?";
+                if ($key != 'products_id') $keys[] = "$key =?";
                 $values[] = $value;
             }
 
             $stmt = $this->pdo->prepare('SELECT COUNT(*) FROM tbl_products WHERE products_id=?');
-            $stmt->execute([$data['id']]);
+            $stmt->execute([$data['products_id']]);
             if ($stmt->fetchColumn() < 1) throw new Exception('Robot does not exist');
 
-            $stmt = $this->pdo->prepare('UPDATE tbl_products SET ' . implode(', ', $keys) . 'WHERE products_id=?');
+            $stmt = $this->pdo->prepare('UPDATE tbl_products SET ' . implode(', ', $keys) . ' WHERE products_id=?');
             $stmt->execute($values);
 
             $data = $this->updateCache('products');
