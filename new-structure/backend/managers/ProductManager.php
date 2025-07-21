@@ -77,7 +77,6 @@ class ProductManager
     }
     public function editProduct(array $data): array
     {
-        // int $id, string $robots_item, string $robots_description, float $robots_cost, float $robots_srp
         $success = true;
         $message = 'Product Edited Successfully';
 
@@ -87,15 +86,16 @@ class ProductManager
             $keys = [];
             $values = [];
             foreach ($data as $key => $value) {
-                if ($key != 'products_id') $keys[] = "$key =?";
-                $values[] = $value;
+                if ($key != 'products_id') {
+                    $keys[] = "$key =?";
+                    $values[] = $value;
+                }
             }
+            $values[] = $data['products_id'];
 
             $stmt = $this->pdo->prepare('SELECT COUNT(*) FROM tbl_products WHERE products_id=?');
             $stmt->execute([$data['products_id']]);
-            if ($stmt->fetchColumn() < 1) throw new Exception('Robot does not exist');
-
-            echo json_encode($keys);
+            if ($stmt->fetchColumn() < 1) throw new Exception('Product does not exist');
 
             $stmt = $this->pdo->prepare('UPDATE tbl_products SET ' . implode(', ', $keys) . ' WHERE products_id=?');
             $stmt->execute($values);
