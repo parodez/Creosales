@@ -288,48 +288,32 @@
 
         try {
             const response = await fetch(
-                'http://localhost/Creosales/Creosales/new-structure/backend/api/product/', {
+                'http://localhost:8080/Creosales/new-structure/backend/api/product/', {
                     method: 'PATCH',
                     headers: {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(data)
                 });
+
+console.log('Response object:', response);
+
+            // const responseText = await response.text();
+            // console.log("Raw response: ", responseText);
             const result = await response.json();
-            // console.log(result);
+            console.log('Parsed Response: ', result);
 
             if (result.success === true) {
                 alert('Edit Successful');
-                const modal = bootstrap.Modal.getInstance(document.getElementById('popupFormModal'));
+                const modal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
                 modal.hide();
                 this.reset();
+                location.reload();
             } else throw new Error(result.message);
         } catch (error) {
             console.error('Error:', error);
             alert('An error occurred while processing your request.');
         }
-
-        // fetch('http://localhost/Creosales/Creosales/new-structure/backend/api/product/', {
-        //         method: 'PATCH',
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify(data)
-        //     })
-        //     .then(response => response.json())
-        //     .then(data => {
-        //         if (data.success === true) {
-        //             alert('Edit successful!');
-        //             const modal = bootstrap.Modal.getInstance(document.getElementById('popupFormModal'));
-        //             modal.hide(); // Close the modal
-        //             this.reset();
-        //         } else {
-        //             alert('Error: ' + data.message);
-        //         }
-        //     })
-        //     .catch(error => {
-        //         console.error('Error:', error);
-        //     });
     });
 
     document.querySelectorAll('.edit-btn').forEach(button => {
