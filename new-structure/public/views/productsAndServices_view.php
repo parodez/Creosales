@@ -295,14 +295,8 @@
                     },
                     body: JSON.stringify(data)
                 });
-
-console.log('Response object:', response);
-
-            // const responseText = await response.text();
-            // console.log("Raw response: ", responseText);
             const result = await response.json();
             console.log('Parsed Response: ', result);
-
             if (result.success === true) {
                 alert('Edit Successful');
                 const modal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
