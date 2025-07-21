@@ -46,6 +46,10 @@
     }
 
     .col-item {
+        width: 4%;
+    }
+
+    .col-item {
         width: 23%;
     }
 
@@ -54,11 +58,11 @@
     }
 
     .col-cost {
-        width: 10%;
+        width: 8%;
     }
 
     .col-srp {
-        width: 10%;
+        width: 8%;
     }
 
     .col-service {
@@ -108,6 +112,8 @@
                 <table id="robotsTable">
                     <thead class="bg-gray-50">
                         <tr>
+                            <th scope="col" class="col-id">
+                                ID</th>
                             <th scope="col" class="col-item">
                                 Item</th>
                             <th scope="col" class="col-desc">
@@ -127,8 +133,9 @@
                         <tr data-id="<?= $product['products_id']; ?>" data-item="<?= $product['products_item']; ?>"
                             data-description="<?= $product['products_description']; ?>"
                             data-cost="<?= $product['products_cost']; ?>" data-srp="<?= $product['products_srp']; ?>"
-                            data-service="<?= $product['services_type'] ?>">
-                            <th scope="row"><?= htmlspecialchars($product['products_item']); ?></th>
+                            data-service="<?= $product['services_id'] ?>">
+                            <th scope="row"><?= htmlspecialchars($product['products_id']); ?></th>
+                            <th><?= htmlspecialchars($product['products_item']); ?></th>
                             <td><?= htmlspecialchars($product['products_description']); ?></td>
                             <td><?= htmlspecialchars($product['products_cost']); ?></td>
                             <td><?= htmlspecialchars($product['products_srp']); ?></td>
@@ -161,6 +168,10 @@
                 <form id="editForm">
                     <div class="modal-body">
                         <div class="mb-3">
+                            <label for="products_id" class="form-label">ID</label>
+                            <input type="text" class="form-control" id="products_id" name="products_id" readonly>
+                        </div>
+                        <div class="mb-3">
                             <label for="products_item" class="form-label">Name</label>
                             <input type="text" class="form-control" id="products_item" name="products_item" required>
                         </div>
@@ -178,10 +189,10 @@
                             <input type="number" class="form-control" id="products_srp" name="products_srp" required>
                         </div>
                         <div class="mb-3">
-                            <label for="services_type" class="form-label">Service</label>
-                            <select class="form-control" id="services_type" name="services_type" required>
+                            <label for="services_id" class="form-label">Service</label>
+                            <select class="form-control" id="services_id" name="services_id" required>
                                 <?php foreach ($services as $service): ?>
-                                <option value="<?= $service['services_type']; ?>">
+                                <option value=<?= $service['services_id']; ?>>
                                     <?= htmlspecialchars($service['services_type']); ?>
                                 </option>
                                 <?php endforeach; ?>
@@ -227,11 +238,11 @@
                             <input type="number" class="form-control" id="products_srp" name="products_srp" required>
                         </div>
                         <div class="mb-3">
-                            <label for="services_type" class="form-label">Service</label>
-                            <select class="form-control" id="services_type" name="services_type" required>
+                            <label for="services_id" class="form-label">Service</label>
+                            <select class="form-control" id="services_id" name="services_id" required>
                                 <option value="" disabled selected>Select a service</option>
                                 <?php foreach ($services as $service): ?>
-                                <option value="<?= $service['services_type']; ?>">
+                                <option value=<?= $service['services_id']; ?>>
                                     <?= htmlspecialchars($service['services_type']); ?>
                                 </option>
                                 <?php endforeach; ?>
@@ -269,39 +280,67 @@
     // POPUP FORM SCRIPT
 
     //EDIT
-    document.getElementById('editForm').addEventListener('submit', function(e) {
+    document.getElementById('editForm').addEventListener('submit', async function(e) {
         e.preventDefault(); // Prevent default form submit
 
-        const formData = new FormData(this);
+        const form = document.getElementById('editForm');
+        const data = Object.fromEntries(new FormData(form).entries());
 
-        fetch('backend/register.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    alert('Registration successful!');
-                    const modal = bootstrap.Modal.getInstance(document.getElementById('popupFormModal'));
-                    modal.hide(); // Close the modal
-                    this.reset();
-                } else {
-                    alert('Error: ' + data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+        try {
+            const response = await fetch(
+                'http://localhost/Creosales/Creosales/new-structure/backend/api/product/', {
+                    method: 'PATCH',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(data)
+                });
+            const result = await response.json();
+            // console.log(result);
+
+            if (result.success === true) {
+                alert('Edit Successful');
+                const modal = bootstrap.Modal.getInstance(document.getElementById('popupFormModal'));
+                modal.hide();
+                this.reset();
+            } else throw new Error(result.message);
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while processing your request.');
+        }
+
+        // fetch('http://localhost/Creosales/Creosales/new-structure/backend/api/product/', {
+        //         method: 'PATCH',
+        //         headers: {
+        //             'Content-Type': 'application/json'
+        //         },
+        //         body: JSON.stringify(data)
+        //     })
+        //     .then(response => response.json())
+        //     .then(data => {
+        //         if (data.success === true) {
+        //             alert('Edit successful!');
+        //             const modal = bootstrap.Modal.getInstance(document.getElementById('popupFormModal'));
+        //             modal.hide(); // Close the modal
+        //             this.reset();
+        //         } else {
+        //             alert('Error: ' + data.message);
+        //         }
+        //     })
+        //     .catch(error => {
+        //         console.error('Error:', error);
+        //     });
     });
 
     document.querySelectorAll('.edit-btn').forEach(button => {
         button.addEventListener('click', function() {
             const row = this.closest('tr');
+            document.getElementById('products_id').value = row.dataset.id;
             document.getElementById('products_item').value = row.dataset.item;
             document.getElementById('products_description').value = row.dataset.description;
             document.getElementById('products_cost').value = row.dataset.cost;
             document.getElementById('products_srp').value = row.dataset.srp;
-            document.getElementById('services_type').value = row.dataset.service;
+            document.getElementById('services_id').value = row.dataset.service;
         });
     });
 

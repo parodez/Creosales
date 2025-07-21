@@ -3,11 +3,13 @@ require_once __DIR__ . '/CacheManager.php';
 
 class ProductManager
 {
-    // private PDO $pdo;
+    private CacheManager $cache;
 
     public function __construct(
         private PDO $pdo
-    ) {}
+    ) {
+        $this->cache = new CacheManager();
+    }
 
     public function getProducts(): array
     {
@@ -19,7 +21,7 @@ class ProductManager
             $stmt = $this->pdo->query('SELECT COUNT(*) FROM tbl_products');
             if ($stmt->fetchColumn() < 1) throw new Exception('No Products Found');
 
-            $stmt = $this->pdo->query('SELECT products_id, products_item, products_description, products_cost, products_srp, services_type FROM tbl_products LEFT JOIN tbl_services ON tbl_products.services_id = tbl_services.services_id');
+            $stmt = $this->pdo->query('SELECT products_id, products_item, products_description, products_cost, products_srp, services_type, tbl_products.services_id FROM tbl_products LEFT JOIN tbl_services ON tbl_products.services_id = tbl_services.services_id');
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
             $success = false;
@@ -93,6 +95,8 @@ class ProductManager
             $stmt->execute([$data['products_id']]);
             if ($stmt->fetchColumn() < 1) throw new Exception('Robot does not exist');
 
+            echo json_encode($keys);
+
             $stmt = $this->pdo->prepare('UPDATE tbl_products SET ' . implode(', ', $keys) . ' WHERE products_id=?');
             $stmt->execute($values);
 
@@ -114,10 +118,10 @@ class ProductManager
             $stmt = $this->pdo->query('SELECT * FROM tbl_' . $cacheKey);
             $data = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-            // $this->cache->set($cacheKey, $data, 300);
+            $this->cache->set($cacheKey, $data, 300);
         } catch (Exception $e) {
             $success = false;
-            $message = $e;
+            $message = $e->getMessage();
         }
         return ['success' => $success, 'message' => $message];
     }
