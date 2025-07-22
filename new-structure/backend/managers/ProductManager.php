@@ -36,12 +36,14 @@ class ProductManager
         $message = 'Product Deleted Successfully';
 
         try {
+            if (!isset($data['products_id'])) throw new Exception('Missing Fields');
+
             $stmt = $this->pdo->prepare('SELECT COUNT(*) FROM tbl_products WHERE products_id=?');
-            $stmt->execute([$data['id']]);
+            $stmt->execute([$data['products_id']]);
             if ($stmt->fetchColumn() < 0) throw new Exception('Product does not exist');
 
             $stmt = $this->pdo->prepare('DELETE FROM tbl_products WHERE products_id=?');
-            $stmt->execute([$data['id']]);
+            $stmt->execute([$data['products_id']]);
 
             $updateResult = $this->updateCache('products');
             if (!$updateResult['success']) throw new Exception('Product Deleted. Cache Update Unsuccessful: ' . $updateResult['message']);
