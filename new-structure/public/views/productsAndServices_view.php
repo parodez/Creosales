@@ -298,7 +298,6 @@
             const result = await response.json();
             console.log('Parsed Response: ', result);
             if (result.success === true) {
-                alert('Edit Successful');
                 const modal = bootstrap.Modal.getInstance(document.getElementById('editModal'));
                 modal.hide();
                 this.reset();
@@ -323,30 +322,63 @@
     });
 
     //ADD 
-    document.getElementById('addForm').addEventListener('submit', function(e) {
+
+    document.getElementById('addForm').addEventListener('submit', async function(e) {
         e.preventDefault(); // Prevent default form submit
 
-        const formData = new FormData(this);
+        const data = new FormData(this);
+        alert(data);
 
-        fetch('backend/register.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    alert('Registration successful!');
-                    const modal = bootstrap.Modal.getInstance(document.getElementById('popupFormModal'));
-                    modal.hide(); // Close the modal
-                    this.reset();
-                } else {
-                    alert('Error: ' + data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
+        try {
+            const response = await fetch(
+                'http://localhost:8080/Creosales/new-structure/backend/api/product/', {
+                    method: 'POST',
+                    body: data
+                });
+            
+            // const text = await response.text();
+            // console.log(text);
+            
+            const result = await response.json();
+            console.log('Parsed Response: ', result);
+            if (result.success === true) {
+                const modal = bootstrap.Modal.getInstance(document.getElementById('addModal'));
+                modal.hide();
+                this.reset();
+                location.reload();
+            } else throw new Error(result.message);
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while processing your request.');
+        }
     });
+
+    // document.getElementById('addForm').addEventListener('submit', function(e) {
+    //     e.preventDefault(); // Prevent default form submit
+
+    //     const formData = new FormData(this);
+
+    //     fetch('http://localhost:8080/Creosales/new-structure/backend/api/product/', {
+    //             method: 'POST',
+    //             body: formData
+    //         })
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             if (data.status === 'success') {
+    //                 alert('Add successful!');
+    //                 const modal = bootstrap.Modal.getInstance(document.getElementById('addModal'));
+    //                 modal.hide(); // Close the modal
+    //                 this.reset();
+    //                 location.reload();
+    //             } else {
+    //                 alert('Error: ' + data.message);
+    //             }
+    //         })
+    //         .catch(error => {
+    //             console.error('Error:', error);
+    //             alert(error);
+    //         });
+    // });
     </script>
 </body>
 
