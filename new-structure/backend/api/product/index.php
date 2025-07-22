@@ -37,7 +37,10 @@ switch ($method) {
         echo json_encode($manager->getProducts());
         exit;   
     case 'DELETE':
-        echo json_encode($manager->deleteById($_GET));
+        ob_clean();
+        header('Content-Type: application/json');
+        $data = json_decode(file_get_contents('php://input'), true);
+        echo json_encode($manager->deleteById($data));
         exit;
     case 'PATCH':
         ob_clean();
