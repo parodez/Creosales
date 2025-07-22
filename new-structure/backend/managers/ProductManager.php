@@ -57,14 +57,14 @@ class ProductManager
         $message = 'Product Added Successfully';
 
         try {
-            if (!isset($data['item'], $data['desc'], $data['cost'], $data['srp'], $data['service'])) throw new Exception('Missing Fields');
+            if (!isset($data['products_item'], $data['products_description'], $data['products_cost'], $data['products_srp'], $data['services_id'])) throw new Exception('Missing Fields');
 
             $stmt = $this->pdo->prepare('SELECT COUNT(*) FROM tbl_products WHERE products_id=?');
-            $stmt->execute([$data['item']]);
+            $stmt->execute([$data['products_item']]);
             if ($stmt->fetchColumn() > 0) throw new Exception('Product Already Exists');
 
             $stmt = $this->pdo->prepare('INSERT INTO tbl_products (products_item, products_description, products_cost, products_srp, services_id) VALUES (?, ?, ?, ?, ?)');
-            $stmt->execute([$data['item'], $data['desc'], $data['cost'], $data['srp'], $data['service']]);
+            $stmt->execute([$data['products_item'], $data['products_description'], $data['products_cost'], $data['products_srp'], $data['services_id']]);
 
             $updateResult = $this->updateCache('products');
             if (!$updateResult['success']) throw new Exception('Product Added. Cache Update Unsuccessful: ' . $updateResult['message']);

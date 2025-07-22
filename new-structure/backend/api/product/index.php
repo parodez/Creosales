@@ -29,6 +29,8 @@ if ($method === 'OPTIONS') {
 
 switch ($method) {
     case 'POST':
+        ob_clean();
+        header('Content-Type: application/json');
         echo json_encode($manager->addProduct($_POST));
         exit;
     case 'GET':
