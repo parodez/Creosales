@@ -143,7 +143,7 @@
                             <td>
                                 <a href="#" data-bs-toggle="modal" data-bs-target="#editModal" class="edit-btn">
                                     Edit</a>
-                                <a href="">Delete</a>
+                                <a href="#" data-id="<?= $product['products_id']; ?>"class="delete-btn">Delete</a>
                             </td>
                         </tr>
                         <?php endforeach; ?>
@@ -262,24 +262,19 @@
     <?php require_once __DIR__ . '/partials/footer.php' ?>
 
     <script>
-    const tabs = document.querySelectorAll('.tab');
-    const contents = document.querySelectorAll('.tab-content');
-
-    tabs.forEach(tab => {
-        tab.addEventListener('click', () => {
-            // Remove active classes
-            tabs.forEach(t => t.classList.remove('active'));
-            contents.forEach(c => c.classList.remove('active'));
-
-            // Add active to clicked tab and matching content
-            tab.classList.add('active');
-            document.getElementById(tab.dataset.target).classList.add('active');
+    //EDIT
+    document.querySelectorAll('.edit-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const row = this.closest('tr');
+            document.getElementById('products_id').value = row.dataset.id;
+            document.getElementById('products_item').value = row.dataset.item;
+            document.getElementById('products_description').value = row.dataset.description;
+            document.getElementById('products_cost').value = row.dataset.cost;
+            document.getElementById('products_srp').value = row.dataset.srp;
+            document.getElementById('services_id').value = row.dataset.service;
         });
     });
 
-    // POPUP FORM SCRIPT
-
-    //EDIT
     document.getElementById('editForm').addEventListener('submit', async function(e) {
         e.preventDefault(); // Prevent default form submit
 
@@ -309,25 +304,11 @@
         }
     });
 
-    document.querySelectorAll('.edit-btn').forEach(button => {
-        button.addEventListener('click', function() {
-            const row = this.closest('tr');
-            document.getElementById('products_id').value = row.dataset.id;
-            document.getElementById('products_item').value = row.dataset.item;
-            document.getElementById('products_description').value = row.dataset.description;
-            document.getElementById('products_cost').value = row.dataset.cost;
-            document.getElementById('products_srp').value = row.dataset.srp;
-            document.getElementById('services_id').value = row.dataset.service;
-        });
-    });
-
     //ADD 
-
     document.getElementById('addForm').addEventListener('submit', async function(e) {
-        e.preventDefault(); // Prevent default form submit
+        e.preventDefault();
 
         const data = new FormData(this);
-        alert(data);
 
         try {
             const response = await fetch(
@@ -335,9 +316,6 @@
                     method: 'POST',
                     body: data
                 });
-            
-            // const text = await response.text();
-            // console.log(text);
             
             const result = await response.json();
             console.log('Parsed Response: ', result);
@@ -353,32 +331,36 @@
         }
     });
 
-    // document.getElementById('addForm').addEventListener('submit', function(e) {
-    //     e.preventDefault(); // Prevent default form submit
+    //DELETE
+    document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('.delete-btn').forEach(function(btn) {
+            btn.addEventListener('click', async function (e) {
+                e.preventDefault();
 
-    //     const formData = new FormData(this);
+                const products_id = {products_id: this.dataset.id};
 
-    //     fetch('http://localhost:8080/Creosales/new-structure/backend/api/product/', {
-    //             method: 'POST',
-    //             body: formData
-    //         })
-    //         .then(response => response.json())
-    //         .then(data => {
-    //             if (data.status === 'success') {
-    //                 alert('Add successful!');
-    //                 const modal = bootstrap.Modal.getInstance(document.getElementById('addModal'));
-    //                 modal.hide(); // Close the modal
-    //                 this.reset();
-    //                 location.reload();
-    //             } else {
-    //                 alert('Error: ' + data.message);
-    //             }
-    //         })
-    //         .catch(error => {
-    //             console.error('Error:', error);
-    //             alert(error);
-    //         });
-    // });
+                if (!confirm(`Are you sure you want to delete product with product ID ${products_id['products_id']}?`)) return;
+
+                try {
+                    const response = await fetch(
+                        'http://localhost:8080/Creosales/new-structure/backend/api/product/', {
+                            method: 'DELETE',
+                            body: JSON.stringify(products_id)
+                    });
+
+                    const result = await response.json();
+
+                    if (result.success === true) {
+                        location.reload();
+                    }
+                else throw new Error(result.message);
+                } catch (error) {
+                    console.error('Error: ', error);
+                    alert('An error ocurred while processing your request.');
+                }
+            })
+        })
+    })
     </script>
 </body>
 
