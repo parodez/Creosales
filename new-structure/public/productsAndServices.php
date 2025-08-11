@@ -8,33 +8,39 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start(); // Start session only if not already started
 }
 
+// $url = 'http://localhost/Creosales/new-structure/backend/api/product/';
 
+// try {
+//     $ch = curl_init($url);
+//     curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+//     $response = curl_exec($ch);
+// } catch(Exception $e) {
+//     error_log('cURL initialization failed: ' . $e->getMessage());
+//     die("Error initializing cURL: " . $e->getMessage());
+// }
+// $ch = curl_init($url);
+// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+// $response = curl_exec($ch);
+// if (curl_errno($ch)) {
+//     error_log('cURL Error: ' . curl_error($ch));
+//     // die("Error fetching data from product API" . curl_error($ch));
+//     curl_close($ch);
+// }
+// // curl_close($ch);
+// $data = json_decode($response, true);
+// $products = $data['data'];
 
-$url = 'http://localhost:8080/Creosales/new-structure/backend/api/product/';
-$ch = curl_init($url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-$response = curl_exec($ch);
-if (curl_errno($ch)) {
-    error_log('cURL Error: ' . curl_error($ch));
-    die("Error fetching data from product API" . curl_error($ch));
-    curl_close($ch);
-    
-}
-curl_close($ch);
-$data = json_decode($response, true);
-$products = $data['data'];
-
-$url = 'http://localhost:8080/Creosales/new-structure/backend/api/service/';
-$ch = curl_init($url);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-$response = curl_exec($ch);
-if (curl_errno($ch)) {
-    error_log('cURL Error: ' . curl_error($ch));
-    curl_close($ch);
-    return false;
-}
-curl_close($ch);
-$data = json_decode($response, true);
-$services = $data['data'];
+// $url = 'http://localhost/Creosales/new-structure/backend/api/service/';
+// $ch = curl_init($url);
+// curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+// $response = curl_exec($ch);
+// if (curl_errno($ch)) {
+//     error_log('cURL Error: ' . curl_error($ch));
+//     curl_close($ch);
+//     return false;
+// }
+// curl_close($ch);
+// $data = json_decode($response, true);
+// $services = $data['data'];
 
 require_once __DIR__ . '/views/productsAndServices_view.php';
