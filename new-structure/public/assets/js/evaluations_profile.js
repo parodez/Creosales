@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const addContactForm = document.getElementById('addContactForm');
     const moreDetailsModal = document.getElementById('moreDetailsModal');
 
+    updateImageDisplay();
+
     if (addBtn) {
         addBtn.addEventListener('click', function () {
             addContactModal.style.display = 'block';
@@ -558,7 +560,7 @@ function closeMoreDetailsModal() {
                         updateEvaluationSummary();
                         startAutoPlay();
                     } else {
-                        evaluationInfoBox.style.display = 'none';
+                        // evaluationInfoBox.style.display = 'none';
                         stopAutoPlay();
                     }
                 });

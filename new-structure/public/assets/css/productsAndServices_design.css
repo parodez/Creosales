@@ -1,0 +1,141 @@
+* {
+        font-family: 'Mosterrat', sans-serif;
+        user-select: none;
+        /* user-drag: none; */
+}
+
+body {
+    background-color: white !important;
+
+}
+
+#main-content {
+    background-color: white;
+    margin-top: 25px;
+}
+
+#top-container {
+    display: flex;
+    justify-content: space-between;
+
+    h1 {
+        display: inline-block;
+        color: white;
+        background-color: #4100bf;
+        padding: 20px;
+        transform: translateY(8px);
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+        /* padding-bottom: 10px; */
+    }
+
+    #btn-black {
+        display: inline-block;
+        font-weight: bold;
+        color: white;
+        background-color: #4100bf;
+        padding: 20px;
+        font-size: 30px;
+        transform: translateY(8px);
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+    }
+
+    #btn-black:hover {
+        background-color: #130a2e;
+    }
+}
+
+#products {
+    background-color: white;
+    height: 500px;
+    border: solid 1px black;
+    border-top: solid 0px black;
+    border-radius: 10px;
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0px;
+    overflow: hidden;
+
+    table {
+        width: 100%;
+        /* height: 200px; */
+        table-layout: fixed;
+        /* border-collapse: separate; */
+
+        thead {
+            background-color: #130a2e;
+            border-radius: 10px;
+            height: 50px !important;
+            width: 100%;
+            color: white;
+            overflow: hidden;
+
+            .col-id {
+                width: 4%;
+            }
+
+            .col-item {
+                width: 15%;
+            }
+
+            .col-item {
+                width: 20%;
+            }
+
+            .col-desc {
+                width: 27%;
+            }
+
+            .col-cost {
+                width: 6%;
+            }
+
+            .col-srp {
+                width: 6%;
+            }
+
+            .col-service {
+                width: 15%;
+            }
+
+            .col-actions {
+                width: 8%;
+            }
+        }
+
+        tbody {
+            overflow-y: auto;
+            height: auto;
+            width: 100%;
+            background-color: white;
+            color: black;
+            font-weight: bold;
+
+            tr {
+                height: 50px !important;
+            }
+
+            tr:hover {
+                background-color: #4100bf;
+                color: white;
+            }
+        }
+
+        td,
+        th {
+            text-align: center;
+        }
+
+        #btn-white {
+            font-size: 24px;
+        }
+
+        #btn-white:hover {
+            color: #130a2e;
+
+            /* .fas fa-edit {
+                color: #4100bf;
+            } */
+        }
+    }
+}

@@ -27,53 +27,6 @@
     <?php require_once __DIR__ . '/partials/header.php' ?>
     <?php require_once __DIR__ . '/partials/sidebar.php' ?>
 
-    <!-- <div class="header">
-        <div class="header-left">
-            <div class="hamburger" id="hamburgerBtn">
-                <span></span>
-                <span></span>
-                <span></span>
-            </div>
-            <div class="logo-container">
-                <img src="assets/images/CreoSales-logo.png" alt="CREOTEC Logo" id="logoImg">
-            </div>
-            <div class="logo-text" style="font-weight: bold; color: #4729a6; font-size: 25px;">
-                <span class="logo-text-1">CREOSALES</span><br>
-            </div>
-        </div>
-    </div> -->
-
-    <!-- <div class="sidebar" id="sidebar">
-        <div class="profile">
-            <h4 style="font-weight:bold">
-                <?php echo htmlspecialchars($user['user_firstname'] . ' ' . $user['user_lastname']); ?></h4>
-            <p style="font-size: small;"><?php echo htmlspecialchars($user['user_department']); ?></p>
-            <p style="font-size: small;"><?php echo htmlspecialchars($user['user_position']); ?></p>
-        </div>
-        <ul>
-
-            <li style="font-size: 18px; display: flex; align-items: center;">
-                <a href="evaluation_page.php"
-                    style="flex-grow: 1; display: flex; align-items: center; justify-content: space-between;">
-                    <div style="display: flex; align-items: center;">
-                        <i class="bi bi-people"></i>
-                        <span>Clients</span>
-                    </div>
-                    <span
-                        style="background-color: rgba(255, 255, 255, 0.1); color: #fff; font-size: 15px; font-weight: bold; padding: 3px 15px; border-radius: 5px;">
-                        <?php echo htmlspecialchars($currentUserType === 0 ? $totalClients : $evaluatedClients); ?>
-                    </span>
-                </a>
-            </li>
-            <li style=" font-size: 18px;"><a href="dashboard/dashboard.php"><i class="bi bi-house"></i>
-                    <span>Dashboard</span></a></li>
-            <li style="font-size: 18px;"><a href="#" id="logoutBtn"><i class="bi bi-box-arrow-right"></i>
-                    <span>Logout</span></a></li>
-        </ul>
-    </div>
-
-    <div class="sidebar-overlay" id="sidebarOverlay"></div> -->
-
     <div class="main-content">
         <div class="content-container">
             <div class="profile-container">
@@ -81,7 +34,7 @@
                     <h2><?php echo htmlspecialchars($potentialCustomer->name); ?></h2>
                     <p><?php echo htmlspecialchars($potentialCustomer->sector); ?></p>
                 </div>
-                <div id="evaluation-info-box" class="profile-header" style="display: none;">
+                <div id="evaluation-info-box" class="profile-header">
                     <!-- Image Carousel -->
                     <div class="carousel-container mb-4">
                         <div id="imageCarousel" class="position-relative">
@@ -150,7 +103,7 @@
                     </div>
 
                     <!-- Evaluation Summary -->
-                    <div class="bg-light rounded p-3">
+                    <div class="bg-light rounded">
                         <h3 class="fs-5 fw-bold mb-3">Evaluation Result</h3>
                         <form id="evaluationForm" method="POST">
                             <input type="hidden" name="evaluation_id"

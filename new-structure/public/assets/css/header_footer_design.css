@@ -5,6 +5,7 @@
     width: 100%;
     height: 50px;
     flex-shrink: 0;
+    border-bottom:solid 2px #4100BF;
 }
 
 .logo-container {
@@ -21,7 +22,7 @@
 .footer {
     all: intial;
     width: 100%;
-    height: 75px;
+    height: 50px;
     background: #4100BF;
     color: white;
     text-align: center;
